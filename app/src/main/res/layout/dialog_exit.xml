@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fdfdfd"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/exitad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/ad_exit_line_color"
+        />
+
+    <TextView
+        android:id="@+id/exit"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_gravity="center"
+        android:background="@color/ad_bg_color"
+        android:gravity="center"
+        android:text="@string/exit"
+        android:textColor="@color/text_color_primary"
+        android:textSize="16sp" />
+</LinearLayout>

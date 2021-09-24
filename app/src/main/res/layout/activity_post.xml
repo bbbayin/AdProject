@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:myApplication="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/gray"
+    tools:context=".ui.activity.VPlayerActivity">
+
+    <ImageView
+        android:id="@+id/tool_back_img"
+        android:layout_width="@dimen/size_40dp"
+        android:layout_height="@dimen/size_40dp"
+        android:padding="@dimen/size_6dp"
+        android:src="@drawable/ic_arrow_back_black_24dp"
+        android:background="@drawable/ripple_cycle_large_white"
+        myApplication:layout_constraintTop_toTopOf="parent"
+        myApplication:layout_constraintStart_toStartOf="parent" />
+
+
+    <Button
+        android:id="@+id/show_btn"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:text="click here show full ad"
+        myApplication:layout_constraintTop_toTopOf="parent"
+        myApplication:layout_constraintBottom_toBottomOf="parent"
+        myApplication:layout_constraintStart_toStartOf="parent"
+        myApplication:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,12 @@
+﻿[
+  {
+    "pkg": "miku.twitter.tweet.twimate.twittervideodownloader",
+    "title": "Video Downloader for Twitter",
+    "desprion": "Enjoy Twitter videos and photos offline anytime, anywhere.",
+    "image": "image/img_tw.webp",
+    "icon": "icon/ic_logo_tw.webp",
+    "type": "app",
+    "link": "",
+    "button": "Install"
+  }
+]

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:myApplication="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/setting_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:elevation="0dp"
+        android:paddingTop="2dp"
+        android:background="@color/colorPrimary"
+        myApplication:layout_constraintTop_toTopOf="parent"
+        myApplication:navigationIcon="@drawable/ic_close_black_24dp"
+        custom:contentInsetEnd="0dp"
+        custom:contentInsetStart="0dp">
+
+        <TextView
+            android:id="@+id/title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/settings"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_1dp"
+        android:background="#f2f2f2"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_general"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                myApplication:cardBackgroundColor="@color/global_content_background"
+                myApplication:cardCornerRadius="0dp"
+                myApplication:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/language_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?selectableItemBackground"
+                        android:minHeight="@dimen/size_48dp"
+                        android:orientation="vertical"
+                        android:paddingStart="@dimen/size_18dp"
+                        android:paddingTop="@dimen/size_8dp"
+                        android:paddingEnd="@dimen/size_18dp"
+                        android:paddingBottom="@dimen/size_8dp">
+
+                        <ImageView
+                            android:id="@+id/language_img"
+                            android:layout_width="@dimen/size_40dp"
+                            android:layout_height="@dimen/size_40dp"
+                            android:padding="@dimen/size_8dp"
+                            android:src="@drawable/ic_language_grey_24dp"
+                            myApplication:layout_constraintBottom_toBottomOf="parent"
+                            myApplication:layout_constraintStart_toStartOf="parent"
+                            myApplication:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/language_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/setting_language_title"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="16sp"
+                            android:layout_marginStart="@dimen/size_8dp"
+                            myApplication:layout_constraintStart_toEndOf="@id/language_img"
+                            myApplication:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/language_tv2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/size_4dp"
+                            android:text="@string/setting_language_choose"
+                            android:layout_marginStart="@dimen/size_8dp"
+                            android:textColor="@color/text_color_secondary"
+                            android:textSize="14sp"
+                            myApplication:layout_constraintStart_toEndOf="@id/language_img"
+                            myApplication:layout_constraintTop_toBottomOf="@id/language_tv" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/storage_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?selectableItemBackground"
+                        android:minHeight="@dimen/size_48dp"
+                        android:orientation="vertical"
+                        android:paddingStart="@dimen/size_18dp"
+                        android:paddingTop="@dimen/size_8dp"
+                        android:paddingEnd="@dimen/size_18dp"
+                        android:paddingBottom="@dimen/size_8dp">
+
+                        <ImageView
+                            android:id="@+id/storage_img"
+                            android:layout_width="@dimen/size_40dp"
+                            android:layout_height="@dimen/size_40dp"
+                            android:padding="@dimen/size_8dp"
+                            android:src="@drawable/icon_folder"
+                            myApplication:layout_constraintBottom_toBottomOf="parent"
+                            myApplication:layout_constraintStart_toStartOf="parent"
+                            myApplication:layout_constraintTop_toTopOf="parent" />
+
+
+                        <TextView
+                            android:id="@+id/storage_tv1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/download"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="16sp"
+                            android:layout_marginStart="@dimen/size_8dp"
+                            myApplication:layout_constraintStart_toEndOf="@id/storage_img"
+                            myApplication:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/storage_tv2"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/size_4dp"
+                            android:layout_marginEnd="@dimen/size_16dp"
+                            android:text="/storage/fasfasfasfasfasfasasfasfasfasfasfasfasasfasfasasfasf"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/text_color_secondary"
+                            android:textSize="14sp"
+                            android:layout_marginStart="@dimen/size_8dp"
+                            myApplication:layout_constraintStart_toEndOf="@id/storage_img"
+                            myApplication:layout_constraintTop_toBottomOf="@id/storage_tv1"
+                            myApplication:layout_constraintEnd_toEndOf="parent"
+                            />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/version_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?selectableItemBackground"
+                        android:minHeight="@dimen/size_48dp"
+                        android:orientation="horizontal"
+                        android:paddingStart="@dimen/size_18dp"
+                        android:paddingTop="@dimen/size_8dp"
+                        android:paddingEnd="@dimen/size_18dp"
+                        android:paddingBottom="@dimen/size_8dp">
+
+                        <ImageView
+                            android:id="@+id/version_img"
+                            android:layout_width="@dimen/size_40dp"
+                            android:layout_height="@dimen/size_40dp"
+                            android:padding="@dimen/size_8dp"
+                            android:src="@drawable/ic_setting_version"
+                            myApplication:layout_constraintBottom_toBottomOf="parent"
+                            myApplication:layout_constraintStart_toStartOf="parent"
+                            myApplication:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/version_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/version_suffix"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="16sp"
+                            android:layout_marginStart="@dimen/size_8dp"
+                            myApplication:layout_constraintBottom_toBottomOf="parent"
+                            myApplication:layout_constraintStart_toEndOf="@id/version_img"
+                            myApplication:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/version_tv2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/size_5dp"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="16sp"
+                            myApplication:layout_constraintBottom_toBottomOf="parent"
+                            myApplication:layout_constraintStart_toEndOf="@id/version_tv"
+                            myApplication:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

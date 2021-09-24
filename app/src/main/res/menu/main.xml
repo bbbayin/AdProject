@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:myApplication="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:visible="false"
+        android:id="@+id/show_select_view"
+        android:icon="@drawable/ic_edit"
+        android:title="select_mode"
+        myApplication:showAsAction="always" />
+
+</menu>

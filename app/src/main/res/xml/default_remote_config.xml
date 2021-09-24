@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<defaultsMap>
+    <entry>
+        <key>slot_homepage_native</key>
+        <value>mp:11a17b188668469fb0412708c3d16813:0;adm:ca-app-pub-3940256099942544/2247696110:0</value>
+    </entry>
+
+    <entry>
+        <key>slot_downloadlist_native</key>
+        <value>mp:11a17b188668469fb0412708c3d16813:0;adm:ca-app-pub-3940256099942544/2247696110:0</value>
+    </entry>
+
+    <entry>
+        <key>slot_videoexit_insterstitial</key>
+        <value>mp_interstitial:24534e1901884e398f1253216226017e:0;ab_interstitial:ca-app-pub-3940256099942544/1033173712:0</value>
+    </entry>
+
+    <entry>
+        <key>slot_download_insterstitial</key>
+        <value>mp_interstitial:24534e1901884e398f1253216226017e:0;ab_interstitial:ca-app-pub-3940256099942544/1033173712:0</value>
+    </entry>
+
+    <entry>
+        <key>ad_free</key>
+        <value>false</value>
+    </entry>
+
+</defaultsMap>

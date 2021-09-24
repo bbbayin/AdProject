@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#5946A7</color>
+    <color name="colorPrimaryDark">#5946A7</color>
+    <color name="colorAccent">#5946A7</color>
+
+    <color name="grey">#555555</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+
+    <!-- media player -->
+    <color name="mp_menu_background">#CC333333</color>
+    <color name="transparent">#00000000</color>
+
+    <color name="btn_blue">#5946A7</color>
+
+    <color name="ad_color">#FFFFFF</color>
+    <color name="light_grey">#F7F9FA</color>
+
+    <color name="color_home_yellow">#FAD267</color>
+
+    <color name="settings_line_color">#ebebeb</color>
+
+    <color name="view_bg_color">#ffffff</color>
+    <color name="windowBackground">#ffffff</color>
+    <color name="navigationBarColor">#525252</color>
+    <color name="textColorPrimary">#000000</color>
+    <color name="textColor">#DE000000</color>
+    <color name="home_editbox_color">#ffffff</color>
+    <color name="ad_bg_color">#fdfdfd</color>
+    <color name="ad_exit_line_color">#42333333</color>
+
+    <color name="ad_title_color">#757575</color>
+    <color name="ad_text_color">#757575</color>
+    <color name="black_to_white">#ED000000</color>
+    <color name="foreground_color">#00ffffff</color>
+
+    <color name="settings_bg_color">#ffffff</color>
+    <color name="settings_text_color">#757575</color>
+    <color name="settings_title_color">#8a000000</color>
+    <color name="main_nav_text_color">#686868</color>
+    <color name="colorControlNormal">#7A7A7A</color>
+    <color name="selection_cancel_color">#eeeeee</color>
+
+    <color name="navigation_bar_color">#8FD0D0D0</color>
+    <color name="grey_d0d0d0">#8FD0D0D0</color>
+    <color name="text_color_primary">#DE000000</color>
+    <color name="global_content_background">#FFFFFFFF</color>
+    <color name="text_color_secondary">#8A000000</color>
+
+    <color name="black_6alpha">#0F000000</color>
+    <color name="white_ripple_color">#3EFFFFFF</color>
+    <color name="white_28alpha_color">#47FFFFFF</color>
+    <color name="white_dark">#ffffff</color>
+    <color name="black_dark">#000000</color>
+    <color name="why_login_dark">#6A758E</color>
+    <color name="login_privacy_dark">#D1000000</color>
+    <color name="why_login_tv">#6A758E</color>
+    <color name="bg_color">#6A758E</color>
+
+</resources>

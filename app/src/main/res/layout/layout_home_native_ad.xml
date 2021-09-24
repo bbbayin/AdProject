@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/ad_bg_color"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+            android:id="@+id/ad_flag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/shape_round_corner_line"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:text="AD"
+            android:textColor="@color/ad_color"
+            android:textSize="10sp" />
+
+        <LinearLayout
+            android:id="@+id/ad_choices_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:orientation="horizontal" />
+
+        <FrameLayout
+            android:id="@+id/cover_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ad_flag"
+            android:layout_margin="8dp">
+
+            <miku.ad.imageloader.widget.BasicLazyLoadImageView
+                android:maxHeight="@dimen/ad_max_height"
+                android:id="@+id/ad_cover_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter" />
+
+            <com.google.android.gms.ads.formats.MediaView
+                android:maxHeight="@dimen/ad_max_height"
+                android:id="@+id/ad_adm_mediaview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </FrameLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cover_layout"
+            android:layout_marginStart="8dp">
+
+            <FrameLayout
+                android:id="@+id/icon"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true">
+
+                <miku.ad.imageloader.widget.BasicLazyLoadImageView
+                    android:id="@+id/ad_icon_image"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center_vertical"
+                    android:scaleType="fitXY" />
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/ad_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_toEndOf="@+id/icon"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="this is an AD"
+                android:textColor="@color/ad_title_color"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/ad_subtitle_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ad_title"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="3dp"
+                android:layout_toEndOf="@+id/icon"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="this is just for tesing ,chiapfb gioehf hioyeg hgu guehioy hoh7rfu ioheg vkhoeg "
+                android:textColor="@color/ad_text_color"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/ad_cta_text"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/shape_cta_round_btn"
+        android:elevation="4dp"
+        android:gravity="center"
+        android:text="click"
+        android:textAllCaps="true"
+        android:textColor="@color/colorAccent"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+</LinearLayout>

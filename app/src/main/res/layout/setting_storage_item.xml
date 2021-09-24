@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relative_lyt"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="80dip"
+    android:orientation="horizontal"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingTop="6dp"
+    android:paddingBottom="6dp" >
+
+    <RelativeLayout
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1">
+
+        <!-- 存储器名称 -->
+        <RelativeLayout
+            android:id="@+id/linear_imagelyt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="5dp">
+            <ImageView
+                android:id="@+id/storage_type_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@null"
+                android:src="@drawable/download_internal_storage1" />
+            <ImageView
+                android:id="@+id/storage_type_selected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="25dp"
+                android:contentDescription="@null"
+                android:src="@drawable/download_storage_selected" />
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/storage_type"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/linear_imagelyt"
+            android:drawablePadding="5dp"
+            android:gravity="bottom"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="@dimen/setting_storage_text_type_size" />
+
+        <TextView
+            android:id="@+id/storage_space"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/storage_type"
+            android:layout_toEndOf="@+id/linear_imagelyt"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/ad_text_color"
+            android:gravity="top"
+            android:textSize="@dimen/setting_storage_text_storage_size" />
+
+        <ProgressBar
+            android:id="@+id/storage_pb"
+            style="@style/Storage_style"
+            android:layout_width="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_toEndOf="@+id/linear_imagelyt"
+            android:layout_below="@id/storage_space"
+            android:layout_height="6dp"
+            android:layout_marginTop="6dp" />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:src="@drawable/ic_setting_arrow"
+        android:scaleType="center"
+        android:contentDescription="@null" />
+</LinearLayout>

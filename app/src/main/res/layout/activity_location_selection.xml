@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/settings_bg_color"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:background="@color/colorPrimary"
+            app:navigationIcon="@drawable/ic_close_black_24dp"
+            app:titleTextColor="@color/white"
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:gravity="center_vertical"
+            app:layout_collapseMode="pin"
+            app:layout_scrollFlags="scroll|enterAlways"/>
+
+        <HorizontalScrollView
+            android:layout_marginBottom="@dimen/size_5dp"
+            android:id="@+id/folder_title_bar"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/title_bar_holder"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal" />
+        </HorizontalScrollView>
+
+        <View
+            android:background="@color/settings_line_color"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"/>
+
+        <ListView
+            android:id="@+id/folder_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@color/settings_line_color"
+            android:dividerHeight="1dp"
+            android:fadingEdge="none"
+            android:listSelector="@color/transparent" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        >
+
+        <Button
+            android:id="@+id/cancel_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/selection_cancel_color"
+            android:elevation="2dp"
+            android:stateListAnimator="@null"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="@string/action_cancel"
+            android:textColor="@color/black_to_white"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="1.5dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center_vertical"
+            android:background="#30909496"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/ok_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/ok"
+            android:stateListAnimator="@null"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:background="@drawable/select_path_button_bg"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+</RelativeLayout>

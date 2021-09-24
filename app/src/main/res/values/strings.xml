@@ -1,0 +1,55 @@
+<resources>
+    <string name="app_name">Video Player</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_download">Downloads</string>
+    <string name="download">Download</string>
+
+    <string name="later">Later</string>
+    <string name="submit">Submit</string>
+    <string name="cancel">Cancel</string>
+    <string name="menu_delete">Delete</string>
+    <string name="ok">OK</string>
+    <string name="network_error">Network error. Please try again.</string>
+    <string name="retry">Retry</string>
+    <string name="exit">Tap again to exit</string>
+    <string name="err_no_internet">Please check your internet connection!</string>
+    <string name="purchase_guide_title">"Remove Ads"</string>
+    <string name="purchase_guide_bug">BUY IT NOW</string>
+    <string name="version_suffix">"Version: "</string>
+    <string name="folder_msg_fmt">%1$s - %2$d total</string>
+    <string name="title_download_location">Download location</string>
+    <string name="root_folder">Root folder</string>
+    <string name="download_default_save_path">Default location: %1$s</string>
+    <string name="download_4_4_sdcard_save_folder">Android 4.4\'s permission policy requires that we place downloaded files at %s. Save downloads here?</string>
+    <string name="action_confirm">CONFIRM</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="download_sdcard_unavailable">No permission to save files in this SD card, please select other SD card</string>
+    <string name="s_download_text_availableSpace">Available</string>
+    <string name="s_total_available">Total</string>
+    <string name="s_download_innerSDCard">Internal Storage</string>
+    <string name="download_save_folder_miss_permission">No permission to save files in this folder, please select other folder</string>
+    <string name="action_return">RETURN</string>
+    <string name="settings">Settings</string>
+    <string name="s_download_outerSDCard">extSdCard</string>
+    <string name="action_yes">Yes</string>
+    <string name="action_no">No</string>
+
+    <string name="setting_language_title">Language</string>
+    <string name="setting_language_choose">Select</string>
+    <string name="system_default">System default</string>
+
+    <string-array name="language_options" translatable="false">
+        <item>@string/system_default</item>
+        <item>English</item>
+        <item>简体中文</item>
+    </string-array>
+
+    <string name="rate_later">Later</string>
+
+
+    <string name="life_ad_vip_subtitle">Enjoy pure ad-free version</string>
+    <string name="share_friend_content">Like it? Share it with your friends~</string>
+    <string name="purchase_error">"The Google Paid service isn't available at the moment or in your country"</string>
+    <string name="life_ad_vip" translatable="false">VIP</string>
+
+</resources>
