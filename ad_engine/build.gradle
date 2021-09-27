@@ -28,7 +28,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.google.android.exoplayer:exoplayer:2.14.0'
     implementation 'com.google.firebase:firebase-core:19.0.0'
-    implementation 'com.google.firebase:firebase-config:20.0.4'
+    implementation 'com.google.firebase:firebase-config:21.0.1'
     implementation 'com.google.firebase:firebase-ads:20.0.0'
 
     compileOnly('com.mopub:mopub-sdk-native-static:5.9.1@aar') {

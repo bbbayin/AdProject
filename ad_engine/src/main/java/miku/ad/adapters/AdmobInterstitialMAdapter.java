@@ -2,7 +2,7 @@ package miku.ad.adapters;
 
 import android.content.Context;
 
-import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
 
 import static miku.ad.AdConstants.AdType.AD_SOURCE_ADMOB_INTERSTITIAL_M;
 

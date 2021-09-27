@@ -1,25 +1,36 @@
 package miku.ad.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.reward.RewardItem;
-import com.google.android.gms.ads.reward.RewardedVideoAd;
-import com.google.android.gms.ads.reward.RewardedVideoAdListener;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.OnUserEarnedRewardListener;
+import com.google.android.gms.ads.rewarded.RewardItem;
+import com.google.android.gms.ads.rewarded.RewardedAd;
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 
 import miku.ad.AdConstants;
 import miku.ad.AdLog;
 import miku.ad.AdUtils;
 
 public class AdmobRewardVideoAdapter extends AdAdapter {
-    private RewardedVideoAd rewardedVideoAd;
+    private RewardedAd rewardAd;
     private final static String TAG = "AdmobRewardVideoAdapter";
+
+    private String KEY ;
+    boolean isLoading;
+    private Activity context;
 
     public AdmobRewardVideoAdapter(Context context, String key, String slot) {
         super(context, key, slot);
+        this.context = (Activity) context;
         LOAD_TIMEOUT = 20 * 1000;
+        KEY = key;
     }
 
     @Override
@@ -35,84 +46,115 @@ public class AdmobRewardVideoAdapter extends AdAdapter {
             AdLog.e("Not set listener!");
             return;
         }
-        rewardedVideoAd = MobileAds.getRewardedVideoAdInstance(context);
-        rewardedVideoAd.setRewardedVideoAdListener(new RewardedVideoAdListener() {
-            @Override
-            public void onRewardedVideoAdLoaded() {
-                AdLog.d("onRewardedVideoAdLoaded");
-                stopMonitor();
-                mLoadedTime = System.currentTimeMillis();
-                if (adListener != null) {
-                    adListener.onAdLoaded(AdmobRewardVideoAdapter.this);
-                }
-                if (mStartLoadedTime != 0) {
-                }
-                mStartLoadedTime = 0;
-                AdmobRewardVideoAdapter.this.onAdLoaded();
-            }
 
-            @Override
-            public void onRewardedVideoAdOpened() {
-                AdLog.d("onRewardedVideoAdOpened");
-                AdmobRewardVideoAdapter.this.onAdShowed();
-            }
+        if (rewardAd == null) {
+            isLoading = true;
+            AdRequest adRequest = new AdRequest.Builder().build();
+            RewardedAd.load(
+                    context,
+                    KEY,
+                    adRequest,
+                    new RewardedAdLoadCallback() {
 
-            @Override
-            public void onRewardedVideoStarted() {
-                AdLog.d("onRewardedVideoStarted");
-            }
+                        @Override
+                        public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                            // Handle the error.
+//                            Log.d(TAG, loadAdError.getMessage());
+                            rewardAd = null;
+                             isLoading = false;
+//                            Toast.makeText(MainActivity.this, "onAdFailedToLoad", Toast.LENGTH_SHORT).show();
+                        }
 
-            @Override
-            public void onRewardedVideoAdClosed() {
-                AdLog.d("onRewardedVideoAdClosed");
-                if (adListener != null) {
-                    adListener.onAdClosed(AdmobRewardVideoAdapter.this);
-                }
-            }
-
-            @Override
-            public void onRewarded(RewardItem rewardItem) {
-                AdLog.d("onRewarded " + rewardItem.getType());
-                if (adListener != null) {
-                    adListener.onRewarded(AdmobRewardVideoAdapter.this);
-                }
-                AdmobRewardVideoAdapter.this.onRewarded();
-            }
-
-            @Override
-            public void onRewardedVideoAdLeftApplication() {
-                AdLog.d("onRewardedVideoAdLeftApplication");
-                if (adListener != null) {
-                    adListener.onAdClicked(AdmobRewardVideoAdapter.this);
-                }
-            }
-
-            @Override
-            public void onRewardedVideoAdFailedToLoad(int i) {
-                if (adListener != null) {
-                    adListener.onError("ErrorCode: " + i);
-                }
-                stopMonitor();
-                mStartLoadedTime = 0;
-                AdmobRewardVideoAdapter.this.onError(String.valueOf(i));
-            }
-
-            @Override
-            public void onRewardedVideoCompleted() {
-                AdLog.d("onRewardedVideoCompleted");
-            }
-        });
-
-        if (AdConstants.DEBUG) {
-            String android_id = AdUtils.getAndroidID(context);
-            String deviceId = AdUtils.MD5(android_id).toUpperCase();
-            AdRequest request = new AdRequest.Builder().addTestDevice(deviceId).build();
-            rewardedVideoAd.loadAd(mKey, request);
-            boolean isTestDevice = request.isTestDevice(context);
-            AdLog.d("is Admob Test Device ? " + deviceId + " " + isTestDevice);
-        } else {
-            rewardedVideoAd.loadAd(mKey, new AdRequest.Builder().build());
+                        @Override
+                        public void onAdLoaded(@NonNull RewardedAd rewardedAd) {
+                            rewardAd = rewardedAd;
+//                            Log.d(TAG, "onAdLoaded");
+                             isLoading = false;
+                            stopMonitor();
+//                            Toast.makeText(MainActivity.this, "onAdLoaded", Toast.LENGTH_SHORT).show();
+                        }
+                    });
         }
+        
+        
+//        rewardedVideoAd = MobileAds.getRewardedVideoAdInstance(context);
+//        rewardedVideoAd.setRewardedVideoAdListener(new RewardedVideoAdListener() {
+//            @Override
+//            public void onRewardedVideoAdLoaded() {
+//                AdLog.d("onRewardedVideoAdLoaded");
+//                stopMonitor();
+//                mLoadedTime = System.currentTimeMillis();
+//                if (adListener != null) {
+//                    adListener.onAdLoaded(AdmobRewardVideoAdapter.this);
+//                }
+//                if (mStartLoadedTime != 0) {
+//                }
+//                mStartLoadedTime = 0;
+//                AdmobRewardVideoAdapter.this.onAdLoaded();
+//            }
+//
+//            @Override
+//            public void onRewardedVideoAdOpened() {
+//                AdLog.d("onRewardedVideoAdOpened");
+//                AdmobRewardVideoAdapter.this.onAdShowed();
+//            }
+//
+//            @Override
+//            public void onRewardedVideoStarted() {
+//                AdLog.d("onRewardedVideoStarted");
+//            }
+//
+//            @Override
+//            public void onRewardedVideoAdClosed() {
+//                AdLog.d("onRewardedVideoAdClosed");
+//                if (adListener != null) {
+//                    adListener.onAdClosed(AdmobRewardVideoAdapter.this);
+//                }
+//            }
+//
+//            @Override
+//            public void onRewarded(RewardItem rewardItem) {
+//                AdLog.d("onRewarded " + rewardItem.getType());
+//                if (adListener != null) {
+//                    adListener.onRewarded(AdmobRewardVideoAdapter.this);
+//                }
+//                AdmobRewardVideoAdapter.this.onRewarded();
+//            }
+//
+//            @Override
+//            public void onRewardedVideoAdLeftApplication() {
+//                AdLog.d("onRewardedVideoAdLeftApplication");
+//                if (adListener != null) {
+//                    adListener.onAdClicked(AdmobRewardVideoAdapter.this);
+//                }
+//            }
+//
+//            @Override
+//            public void onRewardedVideoAdFailedToLoad(int i) {
+//                if (adListener != null) {
+//                    adListener.onError("ErrorCode: " + i);
+//                }
+//                stopMonitor();
+//                mStartLoadedTime = 0;
+//                AdmobRewardVideoAdapter.this.onError(String.valueOf(i));
+//            }
+//
+//            @Override
+//            public void onRewardedVideoCompleted() {
+//                AdLog.d("onRewardedVideoCompleted");
+//            }
+//        });
+//
+//        if (AdConstants.DEBUG) {
+//            String android_id = AdUtils.getAndroidID(context);
+//            String deviceId = AdUtils.MD5(android_id).toUpperCase();
+//            AdRequest request = new AdRequest.Builder().addTestDevice(deviceId).build();
+//            rewardedVideoAd. loadAd(mKey, request);
+//            boolean isTestDevice = request.isTestDevice(context);
+//            AdLog.d("is Admob Test Device ? " + deviceId + " " + isTestDevice);
+//        } else {
+//            rewardedVideoAd.loadAd(mKey, new AdRequest.Builder().build());
+//        }
         startMonitor();
     }
 
@@ -124,7 +166,7 @@ public class AdmobRewardVideoAdapter extends AdAdapter {
 
     @Override
     public Object getAdObject() {
-        return rewardedVideoAd;
+        return rewardAd;
     }
 
     @Override
@@ -141,10 +183,23 @@ public class AdmobRewardVideoAdapter extends AdAdapter {
 
     @Override
     public void show() {
-        if (rewardedVideoAd != null
-                && rewardedVideoAd.isLoaded()) {
+        if (rewardAd != null
+                && !isLoading) {
             registerViewForInteraction(null);
-            rewardedVideoAd.show();
+
+            rewardAd.show(
+                    context,
+                    new OnUserEarnedRewardListener() {
+                        @Override
+                        public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
+                            // Handle the reward.
+                            Log.d(TAG, "The user earned the reward.");
+//                            int rewardAmount = rewardItem.getAmount();
+//                            String rewardType = rewardItem.getType();
+                        }
+                    });
+
+
         }
     }
 }

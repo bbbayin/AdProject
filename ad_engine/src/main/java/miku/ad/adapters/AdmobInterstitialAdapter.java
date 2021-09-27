@@ -1,12 +1,20 @@
 package miku.ad.adapters;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 
 import miku.ad.AdConstants;
 import miku.ad.AdLog;
@@ -17,10 +25,12 @@ public class AdmobInterstitialAdapter extends AdAdapter {
     private final static String TAG = "AdmobInterstitialAdapter";
     private InterstitialAd rawAd;
     private String key;
+    private Activity context ;
 
     public AdmobInterstitialAdapter(Context context, String key, String slot) {
         super(context, key, slot);
         this.key = key;
+        this.context = (Activity) context;
         LOAD_TIMEOUT = 20 * 1000;
     }
 
@@ -48,7 +58,11 @@ public class AdmobInterstitialAdapter extends AdAdapter {
     public void show() {
         registerViewForInteraction(null);
         Log.d("fuseAdLoader", "show");
-        rawAd.show();
+
+        if(rawAd!=null){
+            rawAd.show(context);
+        }
+
     }
 
     @Override
@@ -60,82 +74,141 @@ public class AdmobInterstitialAdapter extends AdAdapter {
             AdLog.e("listener is null!!");
             return;
         }
-        rawAd = new InterstitialAd(context);
-        rawAd.setAdUnitId(key);
-        rawAd.setAdListener(new AdListener() {
-            @Override
-            public void onAdFailedToLoad(int i) {
-                super.onAdFailedToLoad(i);
-                if (adListener != null) {
-                    adListener.onError("ErrorCode: " + i);
-                }
-                stopMonitor();
-                mStartLoadedTime = 0;
-                AdmobInterstitialAdapter.this.onError(String.valueOf(i));
-                dealErrorMessage(AdmobInterstitialAdapter.this, i);
-            }
 
-            @Override
-            public void onAdLoaded() {
-                super.onAdLoaded();
-                Log.d("fuseAdLoader", "onLoaded");
-                mLoadedTime = System.currentTimeMillis();
-                if (adListener != null) {
-                    adListener.onAdLoaded(AdmobInterstitialAdapter.this);
-                }
-                stopMonitor();
-                if (mStartLoadedTime != 0) {
-                }
-                mStartLoadedTime = 0;
-                AdmobInterstitialAdapter.this.onAdLoaded();
-            }
+        AdRequest adRequest = new AdRequest.Builder().build();
+        InterstitialAd.load(
+                context,
+                key,
+                adRequest,
+                new InterstitialAdLoadCallback() {
+                    @SuppressLint("LongLogTag")
+                    @Override
+                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                        // The mInterstitialAd reference will be null until
+                        // an ad is loaded.
+                        rawAd = interstitialAd;
+                        Log.i(AdmobInterstitialAdapter.TAG, "onAdLoaded");
+                        Log.d("fuseAdLoader", "onLoaded");
+                        stopMonitor();
+                        interstitialAd.setFullScreenContentCallback(
+                                new FullScreenContentCallback() {
+                                    @Override
+                                    public void onAdDismissedFullScreenContent() {
+                                        // Called when fullscreen content is dismissed.
+                                        // Make sure to set your reference to null so you don't
+                                        // show it a second time.
+                                        rawAd = null;
+                                        Log.d("TAG", "The ad was dismissed.");
+                                    }
 
-            @Override
-            public void onAdClicked() {
-                super.onAdClicked();
-            }
+                                    @Override
+                                    public void onAdFailedToShowFullScreenContent(AdError adError) {
+                                        // Called when fullscreen content failed to show.
+                                        // Make sure to set your reference to null so you don't
+                                        // show it a second time.
+                                        rawAd = null;
+                                        Log.d("TAG", "The ad failed to show.");
+                                    }
 
-            @Override
-            public void onAdOpened() {
-                super.onAdOpened();
-                if (adListener != null) {
-                    adListener.onAdClicked(AdmobInterstitialAdapter.this);
-                }
-            }
+                                    @Override
+                                    public void onAdShowedFullScreenContent() {
+                                        // Called when fullscreen content is shown.
+                                        Log.d("TAG", "The ad was shown.");
+                                    }
+                                });
+                    }
 
-            @Override
-            public void onAdLeftApplication() {
-                super.onAdLeftApplication();
-                AdmobInterstitialAdapter.this.onAdClicked();
-                FuseAdLoader.reportAdClick(AdmobInterstitialAdapter.this);
-            }
+                    @SuppressLint("LongLogTag")
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        // Handle the error
+                        Log.i(TAG, loadAdError.getMessage());
+                        rawAd = null;
 
-            @Override
-            public void onAdClosed() {
-                super.onAdClosed();
-                AdLog.d("ad interstitial onAdClosed");
-                if (adListener != null) {
-                    adListener.onAdClosed(AdmobInterstitialAdapter.this);
-                }
-            }
+                        String error =
+                                String.format(
+                                        "domain: %s, code: %d, message: %s",
+                                        loadAdError.getDomain(), loadAdError.getCode(), loadAdError.getMessage());
+                        Log.i(TAG, "onAdLoaded");
+                    }
+                });
 
-            @Override
-            public void onAdImpression() {
-                super.onAdImpression();
-                AdmobInterstitialAdapter.this.onAdShowed();
-            }
-        });
+//        rawAd = new InterstitialAd(context);
+//        rawAd.setAdUnitId(key);
+//        rawAd.setAdListener(new AdListener() {
+//            @Override
+//            public void onAdFailedToLoad(int i) {
+//                super.onAdFailedToLoad(i);
+//                if (adListener != null) {
+//                    adListener.onError("ErrorCode: " + i);
+//                }
+//                stopMonitor();
+//                mStartLoadedTime = 0;
+//                AdmobInterstitialAdapter.this.onError(String.valueOf(i));
+//                dealErrorMessage(AdmobInterstitialAdapter.this, i);
+//            }
+//
+//            @Override
+//            public void onAdLoaded() {
+//                super.onAdLoaded();
+//                Log.d("fuseAdLoader", "onLoaded");
+//                mLoadedTime = System.currentTimeMillis();
+//                if (adListener != null) {
+//                    adListener.onAdLoaded(AdmobInterstitialAdapter.this);
+//                }
+//                stopMonitor();
+//                if (mStartLoadedTime != 0) {
+//                }
+//                mStartLoadedTime = 0;
+//                AdmobInterstitialAdapter.this.onAdLoaded();
+//            }
+//
+//            @Override
+//            public void onAdClicked() {
+//                super.onAdClicked();
+//            }
+//
+//            @Override
+//            public void onAdOpened() {
+//                super.onAdOpened();
+//                if (adListener != null) {
+//                    adListener.onAdClicked(AdmobInterstitialAdapter.this);
+//                }
+//            }
+//
+//            @Override
+//            public void onAdLeftApplication() {
+//                super.onAdLeftApplication();
+//                AdmobInterstitialAdapter.this.onAdClicked();
+//                FuseAdLoader.reportAdClick(AdmobInterstitialAdapter.this);
+//            }
+//
+//            @Override
+//            public void onAdClosed() {
+//                super.onAdClosed();
+//                AdLog.d("ad interstitial onAdClosed");
+//                if (adListener != null) {
+//                    adListener.onAdClosed(AdmobInterstitialAdapter.this);
+//                }
+//            }
+//
+//            @Override
+//            public void onAdImpression() {
+//                super.onAdImpression();
+//                AdmobInterstitialAdapter.this.onAdShowed();
+//            }
+//        });
 
-        if (AdConstants.DEBUG) {
-            String android_id = AdUtils.getAndroidID(context);
-            String deviceId = AdUtils.MD5(android_id).toUpperCase();
-            AdRequest request = new AdRequest.Builder().addTestDevice(deviceId).build();
-            rawAd.loadAd(request);
-            boolean isTestDevice = request.isTestDevice(context);
-            AdLog.d("is Admob Test Device ? " + deviceId + " " + isTestDevice);
-        } else {
-            rawAd.loadAd(new AdRequest.Builder().build());
-        }
+//        if (AdConstants.DEBUG) {
+//            String android_id = AdUtils.getAndroidID(context);
+//            String deviceId = AdUtils.MD5(android_id).toUpperCase();
+//            AdRequest request = new AdRequest.Builder().build();
+//            rawAd.loadAd(request);
+//            boolean isTestDevice = request.isTestDevice(context);
+//            AdLog.d("is Admob Test Device ? " + deviceId + " " + isTestDevice);
+//        } else {
+//            rawAd.loadAd(new AdRequest.Builder().build());
+//        }
         startMonitor();
     }
 

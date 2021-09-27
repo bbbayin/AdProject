@@ -13,6 +13,8 @@ import androidx.annotation.Nullable;
 
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.mopub.common.MoPub;
 import com.mopub.common.SdkConfiguration;
 import com.mopub.common.SdkInitializationListener;
@@ -221,7 +223,14 @@ public class FuseAdLoader {
         sConfigFetcher = depends;
         sConfiguration = configuration;
         if (sConfiguration.hasAdmob()) {
-            MobileAds.initialize(context, configuration.admobAppId);
+//            MobileAds.initialize(context, configuration.admobAppId);
+
+            MobileAds.initialize(context, new OnInitializationCompleteListener() {
+                @Override
+                public void onInitializationComplete(InitializationStatus initializationStatus) {
+
+                }
+            });
         }
         if (sConfiguration.hasVG()) {
             initVungle(context, configuration.vgId);

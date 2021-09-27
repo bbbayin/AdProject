@@ -23,15 +23,15 @@ public class RemoteConfig {
         try {
             mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
             FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
-                    .setDeveloperModeEnabled(AdConstants.DEBUG)
+//                    .setDeveloperModeEnabled(AdConstants.DEBUG)
                     .build();
-            mFirebaseRemoteConfig.setConfigSettings(configSettings);
+            mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings);
             int cacheTime = AdConstants.DEBUG ? 0 : 2 * 60 * 60;
             mFirebaseRemoteConfig.fetch(cacheTime).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
                     Log.i(TAG, "engine Fetch Succeeded");
-                    mFirebaseRemoteConfig.activateFetched();
+                    mFirebaseRemoteConfig.fetchAndActivate();
                     initProphetConfig();
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -40,7 +40,7 @@ public class RemoteConfig {
                     Log.i(TAG, "engine Fetch failed" + exception);
                 }
             });
-            mFirebaseRemoteConfig.activateFetched();
+            mFirebaseRemoteConfig.fetchAndActivate();
         } catch (Exception e) {
         }
     }

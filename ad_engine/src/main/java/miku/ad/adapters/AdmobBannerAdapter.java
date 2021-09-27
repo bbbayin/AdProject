@@ -3,10 +3,13 @@ package miku.ad.adapters;
 import android.content.Context;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.LoadAdError;
 
 import miku.ad.AdConstants;
 import miku.ad.AdLog;
@@ -40,6 +43,7 @@ public class AdmobBannerAdapter extends AdAdapter {
             mRawAd = new AdView(context);
             mRawAd.setAdSize(mSize);
             mRawAd.setAdUnitId(mKey);
+
             mRawAd.setAdListener(new AdListener() {
                 @Override
                 public void onAdClosed() {
@@ -51,20 +55,15 @@ public class AdmobBannerAdapter extends AdAdapter {
                 }
 
                 @Override
-                public void onAdFailedToLoad(int i) {
-                    super.onAdFailedToLoad(i);
-                    AdLog.d(TAG, "onAdFailedToLoad " + i);
+                public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                    super.onAdFailedToLoad(loadAdError);
+                    AdLog.d(TAG, "onAdFailedToLoad " + loadAdError.getCode());
                     stopMonitor();
                     if (adListener != null) {
-                        adListener.onError("ErrorCode " + i);
+                        adListener.onError("ErrorCode " + loadAdError.getCode());
                     }
                     mStartLoadedTime = 0;
-                    AdmobBannerAdapter.this.onError(String.valueOf(i));
-                }
-
-                @Override
-                public void onAdLeftApplication() {
-                    super.onAdLeftApplication();
+                    AdmobBannerAdapter.this.onError(String.valueOf(loadAdError.getCode()));
                 }
 
                 @Override
@@ -111,7 +110,7 @@ public class AdmobBannerAdapter extends AdAdapter {
         if (AdConstants.DEBUG) {
             String android_id = AdUtils.getAndroidID(context);
             String deviceId = AdUtils.MD5(android_id).toUpperCase();
-            AdRequest request = new AdRequest.Builder().addTestDevice(deviceId).build();
+            AdRequest request = new AdRequest.Builder().build();
             boolean isTestDevice = request.isTestDevice(context);
             AdLog.d("is Admob Test Device ? " + deviceId + " " + isTestDevice);
             AdLog.d("Admob unit id " + mRawAd.getAdUnitId());

@@ -25,16 +25,16 @@ public class RemoteConfig {
 
     public static void init() {
         FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
-                .setDeveloperModeEnabled(BuildConfig.DEBUG)
+//                .setDeveloperModeEnabled(BuildConfig.DEBUG)
                 .build();
-        mFirebaseRemoteConfig.setConfigSettings(configSettings);
+        mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings);
         int cacheTime = BuildConfig.DEBUG ? 0 : 2 * 60 * 60;
-        mFirebaseRemoteConfig.setDefaults(R.xml.default_remote_config);
+        mFirebaseRemoteConfig.setDefaultsAsync(R.xml.default_remote_config);
         mFirebaseRemoteConfig.fetch(cacheTime).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.d(TAG, "Fetch Succeeded");
-                mFirebaseRemoteConfig.activateFetched();
+                mFirebaseRemoteConfig.fetchAndActivate();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -42,7 +42,7 @@ public class RemoteConfig {
                 Log.d(TAG, "Fetch failed" + exception);
             }
         });
-        mFirebaseRemoteConfig.activateFetched();
+        mFirebaseRemoteConfig.fetchAndActivate();
     }
 
     public static boolean getBoolean(String key) {

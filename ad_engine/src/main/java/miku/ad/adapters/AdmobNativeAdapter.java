@@ -10,16 +10,18 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdLoader;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.VideoController;
 import com.google.android.gms.ads.VideoOptions;
-import com.google.android.gms.ads.formats.MediaView;
-import com.google.android.gms.ads.formats.NativeAd;
-import com.google.android.gms.ads.formats.NativeAdOptions;
-import com.google.android.gms.ads.formats.UnifiedNativeAd;
-import com.google.android.gms.ads.formats.UnifiedNativeAdView;
+import com.google.android.gms.ads.nativead.MediaView;
+import com.google.android.gms.ads.nativead.NativeAd;
+import com.google.android.gms.ads.nativead.NativeAdOptions;
+import com.google.android.gms.ads.nativead.NativeAdView;
 
 import java.util.List;
 
@@ -31,7 +33,7 @@ import miku.ad.view.StarLevelLayoutView;
 
 
 public class AdmobNativeAdapter extends AdAdapter {
-    private UnifiedNativeAd mRawAd;
+    private NativeAd mRawAd;
     private final static String TAG = "AdmobNativeAdapter";
 
     public AdmobNativeAdapter(Context context, String key, String slot) {
@@ -50,13 +52,13 @@ public class AdmobNativeAdapter extends AdAdapter {
             AdLog.d("Admob not support load for more than 1 ads. Only return 1 ad");
         }
         AdLoader.Builder builder = new AdLoader.Builder(context, mKey);
-        builder.forUnifiedNativeAd(new UnifiedNativeAd.OnUnifiedNativeAdLoadedListener() {
+        builder.forNativeAd(new NativeAd.OnNativeAdLoadedListener() {
             @Override
-            public void onUnifiedNativeAdLoaded(UnifiedNativeAd unifiedNativeAd) {
-                if (isValidAd(unifiedNativeAd)) {
-                    Log.e("ADMOB_ENGINE", "ad title is: " + unifiedNativeAd.getHeadline());
-                    postOnAdLoaded(unifiedNativeAd);
-                    unifiedNativeAd.setUnconfirmedClickListener(new UnifiedNativeAd.UnconfirmedClickListener() {
+            public void onNativeAdLoaded(@NonNull NativeAd nativeAd) {
+                if (isValidAd(nativeAd)) {
+                    Log.e("ADMOB_ENGINE", "ad title is: " + nativeAd.getHeadline());
+                    postOnAdLoaded(nativeAd);
+                    nativeAd.setUnconfirmedClickListener(new NativeAd.UnconfirmedClickListener() {
                         @Override
                         public void onUnconfirmedClickReceived(String s) {
                             AdmobNativeAdapter.this.onAdClicked();
@@ -81,12 +83,11 @@ public class AdmobNativeAdapter extends AdAdapter {
         builder.withNativeAdOptions(adOptions);
         builder.withAdListener(new AdListener() {
             @Override
-            public void onAdFailedToLoad(int i) {
-                super.onAdFailedToLoad(i);
-                postOnAdLoadFail(i);
+            public void onAdFailedToLoad(LoadAdError loadAdError) {
+                postOnAdLoadFail(loadAdError.getCode());
                 mStartLoadedTime = 0;
-                AdmobNativeAdapter.this.onError(String.valueOf(i));
-                dealErrorMessage(AdmobNativeAdapter.this, i);
+                AdmobNativeAdapter.this.onError(String.valueOf(loadAdError.getCode()));
+                dealErrorMessage(AdmobNativeAdapter.this, loadAdError.getCode());
             }
 
             @Override
@@ -106,7 +107,7 @@ public class AdmobNativeAdapter extends AdAdapter {
         if (AdConstants.DEBUG) {
             String android_id = AdUtils.getAndroidID(context);
             String deviceId = AdUtils.MD5(android_id).toUpperCase();
-            AdRequest request = new AdRequest.Builder().addTestDevice(deviceId).build();
+            AdRequest request = new AdRequest.Builder().build();
             adLoader.loadAd(request);
             boolean isTestDevice = request.isTestDevice(context);
             AdLog.d("is Admob Test Device ? " + deviceId + " " + isTestDevice);
@@ -116,7 +117,7 @@ public class AdmobNativeAdapter extends AdAdapter {
         startMonitor();
     }
 
-    private void postOnAdLoaded(UnifiedNativeAd ad) {
+    private void postOnAdLoaded(NativeAd ad) {
         mRawAd = ad;
         mLoadedTime = System.currentTimeMillis();
         if (adListener != null) {
@@ -203,7 +204,7 @@ public class AdmobNativeAdapter extends AdAdapter {
         }
     }
 
-    private boolean isValidAd(UnifiedNativeAd ad) {
+    private boolean isValidAd(NativeAd ad) {
         return (ad.getHeadline() != null && ad.getBody() != null
                 && ad.getCallToAction() != null);
     }
@@ -215,7 +216,7 @@ public class AdmobNativeAdapter extends AdAdapter {
             actualAdView = LayoutInflater.from(context).inflate(viewBinder.layoutId, null);
         } catch (Exception e) {
         }
-        UnifiedNativeAdView nativeAdView = new UnifiedNativeAdView(context);
+        NativeAdView nativeAdView = new NativeAdView(context);
         if (actualAdView != null) {
             ImageView iconView = actualAdView.findViewById(viewBinder.iconImageId);
             TextView titleView = actualAdView.findViewById(viewBinder.titleId);
@@ -294,7 +295,7 @@ public class AdmobNativeAdapter extends AdAdapter {
             nativeAdView.setHeadlineView(titleView);
             nativeAdView.setBodyView(subtitleView);
             nativeAdView.setMediaView(mediaView);
-            VideoController vc = mRawAd.getVideoController();
+            VideoController vc = mRawAd.getMediaContent()  .getVideoController();
             if (vc.hasVideoContent() || mRawAd.getImages() == null || mRawAd.getImages().size() == 0) {
                 if (mediaView != null) {
                     mediaView.setVisibility(View.VISIBLE);
@@ -370,7 +371,7 @@ public class AdmobNativeAdapter extends AdAdapter {
             actualAdView = LayoutInflater.from(context).inflate(viewBinder.layoutId, null);
         } catch (Exception e) {
         }
-        UnifiedNativeAdView nativeAdView = new UnifiedNativeAdView(context);
+        NativeAdView nativeAdView = new NativeAdView(context);
         if (actualAdView != null) {
             ImageView iconView = actualAdView.findViewById(viewBinder.iconImageId);
             TextView titleView = actualAdView.findViewById(viewBinder.titleId);
@@ -439,7 +440,7 @@ public class AdmobNativeAdapter extends AdAdapter {
             }
             nativeAdView.setCallToActionView(ctaView);
             nativeAdView.setMediaView(mediaView);
-            VideoController vc = mRawAd.getVideoController();
+            VideoController vc = mRawAd.getMediaContent().getVideoController();
             if (vc.hasVideoContent() || mRawAd.getImages() == null || mRawAd.getImages().size() == 0) {
                 if (mediaView != null) {
                     mediaView.setVisibility(View.VISIBLE);
