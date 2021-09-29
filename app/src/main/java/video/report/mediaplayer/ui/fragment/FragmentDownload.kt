@@ -123,7 +123,7 @@ class FragmentDownload : BaseFragment() {
         fun updateCheckTitleInit()
     }
     internal fun loadAd() {
-        if (!MyApplication.instance.isAdFree()&&activity != null && !activity!!.isFinishing) {
+        if (!MyApplication.instance.isAdFree()&&activity != null && !requireActivity().isFinishing) {
             FuseAdLoader.get(Constants.AD_SLOT_DOWNLOADLIST, activity).loadAd(activity, object : AdBaseListener() {
                 override fun onAdLoaded() {
                     if (isFragmentForeground) {

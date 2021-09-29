@@ -94,17 +94,19 @@ public class BillingManager implements PurchasesUpdatedListener {
                                             } catch (JSONException e) {
                                                 e.printStackTrace();
                                             }
-                                            if (REMOVE_AD.equals(purchaseResult.getPurchasesList().get(i).getSku())) {
-                                                userPreference.setAlreadyPurchase(!Constants.REFOUND_USERS.contains(reFoundID));
+                                            for(String sku : purchaseResult.getPurchasesList().get(i).getSkus()){
+                                                if ( REMOVE_AD .equals(sku)) {
+                                                    userPreference.setAlreadyPurchase(!Constants.REFOUND_USERS.contains(reFoundID));
+                                                }
                                             }
-
                                         } else {
-                                            if (REMOVE_AD.equals(purchaseResult.getPurchasesList().get(i).getSku())) {
-                                                userPreference.setAlreadyPurchase(false);
+                                            for(String sku : purchaseResult.getPurchasesList().get(i).getSkus()){
+                                                if ( REMOVE_AD .equals(sku)) {
+                                                    userPreference.setAlreadyPurchase(false);
+                                                }
                                             }
                                         }
                                     }
-
                                 }
                     }
 
@@ -156,8 +158,11 @@ public class BillingManager implements PurchasesUpdatedListener {
 
     private void handlePurchase(Purchase purchase) {
         if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
-            if (REMOVE_AD.equals(purchase.getSku())) {
-                userPreference.setAlreadyPurchase(true);
+
+            for(String sku : purchase.getSkus()){
+                if (REMOVE_AD.equals(sku)) {
+                    userPreference.setAlreadyPurchase(true);
+                }
             }
             if (!purchase.isAcknowledged()) {
                 AcknowledgePurchaseParams acknowledgePurchaseParams =

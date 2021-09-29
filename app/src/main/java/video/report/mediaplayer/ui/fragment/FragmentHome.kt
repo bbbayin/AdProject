@@ -131,7 +131,7 @@ class FragmentHome : BaseFragment(), HomeContact.View {
     }
 
     private fun loadAd() {
-        if (activity != null && !activity!!.isFinishing ) {
+        if (activity != null && !requireActivity().isFinishing ) {
             FuseAdLoader.get(Constants.AD_SLOT_HOMEPAGE, activity).loadAd(activity, object : AdBaseListener() {
                 override fun onAdLoaded() {
                     if (isFragmentForeground) {

@@ -35,6 +35,7 @@
 -keep public class * extends android.preference.Preference
 -keep public class com.android.vending.licensing.ILicensingService
 
+
 -assumenosideeffects class android.util.Log {
     public static *** d(...);
     public static *** v(...);

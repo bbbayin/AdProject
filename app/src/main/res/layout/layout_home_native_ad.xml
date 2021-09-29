@@ -48,7 +48,7 @@
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter" />
 
-            <com.google.android.gms.ads.formats.MediaView
+            <com.google.android.gms.ads.nativead.MediaView
                 android:maxHeight="@dimen/ad_max_height"
                 android:id="@+id/ad_adm_mediaview"
                 android:layout_width="match_parent"
