@@ -25,12 +25,11 @@ public class AdmobInterstitialAdapter extends AdAdapter {
     private final static String TAG = "AdmobInterstitialAdapter";
     private InterstitialAd rawAd;
     private String key;
-    private Activity context ;
+    private Activity activity ;
 
     public AdmobInterstitialAdapter(Context context, String key, String slot) {
         super(context, key, slot);
         this.key = key;
-        this.context = (Activity) context;
         LOAD_TIMEOUT = 20 * 1000;
     }
 
@@ -59,14 +58,14 @@ public class AdmobInterstitialAdapter extends AdAdapter {
         registerViewForInteraction(null);
         Log.d("fuseAdLoader", "show");
 
-        if(rawAd!=null){
-            rawAd.show(context);
+        if(rawAd!=null  ){
+            rawAd.show(activity);
         }
 
     }
 
     @Override
-    public void loadAd(Context context, int num, IAdLoadListener listener) {
+    public void loadAd(final Context context, int num, IAdLoadListener listener) {
         Log.d("fuseAdLoader", "load interstitialAd");
         mStartLoadedTime = System.currentTimeMillis();
         adListener = listener;
@@ -81,15 +80,28 @@ public class AdmobInterstitialAdapter extends AdAdapter {
                 key,
                 adRequest,
                 new InterstitialAdLoadCallback() {
+
                     @SuppressLint("LongLogTag")
                     @Override
                     public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
                         // The mInterstitialAd reference will be null until
                         // an ad is loaded.
                         rawAd = interstitialAd;
+                        activity = (Activity) context;
+
                         Log.i(AdmobInterstitialAdapter.TAG, "onAdLoaded");
                         Log.d("fuseAdLoader", "onLoaded");
+
+                        mLoadedTime = System.currentTimeMillis();
+                        if (adListener != null) {
+                            adListener.onAdLoaded(AdmobInterstitialAdapter.this);
+                        }
                         stopMonitor();
+                        if (mStartLoadedTime != 0) {
+                        }
+                        mStartLoadedTime = 0;
+                        AdmobInterstitialAdapter.this.onAdLoaded();
+
                         interstitialAd.setFullScreenContentCallback(
                                 new FullScreenContentCallback() {
                                     @Override
@@ -118,18 +130,24 @@ public class AdmobInterstitialAdapter extends AdAdapter {
                                 });
                     }
 
+
+
                     @SuppressLint("LongLogTag")
                     @Override
                     public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                         // Handle the error
                         Log.i(TAG, loadAdError.getMessage());
-                        rawAd = null;
+//                        rawAd = null;
 
-                        String error =
-                                String.format(
-                                        "domain: %s, code: %d, message: %s",
-                                        loadAdError.getDomain(), loadAdError.getCode(), loadAdError.getMessage());
-                        Log.i(TAG, "onAdLoaded");
+                        if (adListener != null) {
+                            adListener.onError("ErrorCode: " + loadAdError.getCode());
+                        }
+
+                        stopMonitor();
+                        mStartLoadedTime = 0;
+                        AdmobInterstitialAdapter.this.onError(String.valueOf(loadAdError.getCode()));
+                        dealErrorMessage(AdmobInterstitialAdapter.this, loadAdError.getCode());
+
                     }
                 });
 

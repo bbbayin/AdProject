@@ -24,11 +24,10 @@ public class AdmobRewardVideoAdapter extends AdAdapter {
 
     private String KEY ;
     boolean isLoading;
-    private Activity context;
+    private Activity activity ;
 
     public AdmobRewardVideoAdapter(Context context, String key, String slot) {
         super(context, key, slot);
-        this.context = (Activity) context;
         LOAD_TIMEOUT = 20 * 1000;
         KEY = key;
     }
@@ -39,7 +38,7 @@ public class AdmobRewardVideoAdapter extends AdAdapter {
     }
 
     @Override
-    public void loadAd(Context context, int num, IAdLoadListener listener) {
+    public void loadAd(final Context context, int num, IAdLoadListener listener) {
         mStartLoadedTime = System.currentTimeMillis();
         adListener = listener;
         if (listener == null) {
@@ -59,19 +58,35 @@ public class AdmobRewardVideoAdapter extends AdAdapter {
                         @Override
                         public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                             // Handle the error.
-//                            Log.d(TAG, loadAdError.getMessage());
                             rewardAd = null;
-                             isLoading = false;
-//                            Toast.makeText(MainActivity.this, "onAdFailedToLoad", Toast.LENGTH_SHORT).show();
+                            isLoading = false;
+
+                            if (adListener != null) {
+                                adListener.onError("ErrorCode: " + loadAdError.getCode());
+                            }
+                            stopMonitor();
+                            mStartLoadedTime = 0;
+                            AdmobRewardVideoAdapter.this.onError(String.valueOf(loadAdError.getCode()));
+
                         }
 
                         @Override
                         public void onAdLoaded(@NonNull RewardedAd rewardedAd) {
+                            AdLog.d("onRewardedVideoAdLoaded");
                             rewardAd = rewardedAd;
-//                            Log.d(TAG, "onAdLoaded");
-                             isLoading = false;
+                            isLoading = false;
+                            activity = (Activity) context;
                             stopMonitor();
-//                            Toast.makeText(MainActivity.this, "onAdLoaded", Toast.LENGTH_SHORT).show();
+
+                            mLoadedTime = System.currentTimeMillis();
+                            if (adListener != null) {
+                                adListener.onAdLoaded(AdmobRewardVideoAdapter.this);
+                            }
+                            if (mStartLoadedTime != 0) {
+                            }
+                            mStartLoadedTime = 0;
+                            AdmobRewardVideoAdapter.this.onAdLoaded();
+
                         }
                     });
         }
@@ -188,7 +203,7 @@ public class AdmobRewardVideoAdapter extends AdAdapter {
             registerViewForInteraction(null);
 
             rewardAd.show(
-                    context,
+                    activity,
                     new OnUserEarnedRewardListener() {
                         @Override
                         public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
@@ -198,7 +213,6 @@ public class AdmobRewardVideoAdapter extends AdAdapter {
 //                            String rewardType = rewardItem.getType();
                         }
                     });
-
 
         }
     }
