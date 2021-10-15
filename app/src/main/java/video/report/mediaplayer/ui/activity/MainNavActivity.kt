@@ -96,8 +96,10 @@ class MainNavActivity : BaseActivity(), FragmentDownload.InfoCallback, FragmentH
         sp = getSharedPreferences(this.packageName, Context.MODE_PRIVATE)
         initView()
 
-        loadHomeAd()
-        loadDownloadAd()
+//        loadHomeAd()
+//        loadDownloadAd()
+
+        loadMainAd()
 
         initListener()
         if (BuildConfig.VERSION_NAME.contains('P', true))
@@ -155,6 +157,15 @@ class MainNavActivity : BaseActivity(), FragmentDownload.InfoCallback, FragmentH
         }
     }
 
+    private fun loadMainAd() {
+        FuseAdLoader.get(Constants.AD_SLOT_DOWNLOADLIST, this).preLoadAd(this)
+        FuseAdLoader.get(Constants.AD_SLOT_HOMEPAGE, this).preLoadAd(this)
+        FuseAdLoader.get(Constants.AD_SLOT_DOWNLOAD_INSTERSTITIAL, this).preLoadAd(this)
+
+        FuseAdLoader.get(Constants.AD_SLOT_HOMEPAGE, this).setAutoLoad(true)
+        FuseAdLoader.get(Constants.AD_SLOT_DOWNLOADLIST, this).setAutoLoad(true)
+    }
+
     override fun onBackPressed() {
         FireBaseEventUtils.getInstance().report(Events.AD_APPEXIT_COME)
         var ad: IAdAdapter? = null
@@ -166,6 +177,9 @@ class MainNavActivity : BaseActivity(), FragmentDownload.InfoCallback, FragmentH
             typeList.add(AD_SOURCE_ADMOB_M)
             typeList.add(AD_SOURCE_ADMOB)
             typeList.add(AD_SOURCE_MOPUB)
+            typeList.add(AD_SOURCE_VG)
+            typeList.add(AD_SOURCE_APPLOVIN_BANNER)
+            typeList.add(AD_SOURCE_ADCOLONY_BANNER)
             ad = FuseAdLoader.getAllTopAdByScenes(this, typeList, AD_SLOT_DOWNLOADLIST, AD_SLOT_HOMEPAGE)
         } else {
             FireBaseEventUtils.getInstance().report(Events.AD_APPEXIT_WITH_NO_NETWORK)
@@ -179,6 +193,12 @@ class MainNavActivity : BaseActivity(), FragmentDownload.InfoCallback, FragmentH
                     FireBaseEventUtils.getInstance().report(Events.AD_APPEXIT_ADSHOW_ADMOB)
                 } else if (ad.adType == AD_SOURCE_MOPUB) {
                     FireBaseEventUtils.getInstance().report(Events.AD_APPEXIT_ADSHOW_MOPUB)
+                } else if (ad.adType == AD_SOURCE_VG) {
+                    FireBaseEventUtils.getInstance().report(Events.AD_APPEXIT_ADSHOW_VUNGLE)
+                }else if (ad.adType == AD_SOURCE_APPLOVIN_BANNER) {
+                    FireBaseEventUtils.getInstance().report(Events.AD_APPEXIT_ADSHOW_APPLOVIN)
+                }else if (ad.adType == AD_SOURCE_ADCOLONY_BANNER) {
+                    FireBaseEventUtils.getInstance().report(Events.AD_APPEXIT_ADSHOW_ADCOLONY)
                 }
             }
         }
@@ -574,6 +594,9 @@ class MainNavActivity : BaseActivity(), FragmentDownload.InfoCallback, FragmentH
             typeList.add(AdConstants.AdType.AD_SOURCE_ADMOB_INTERSTITIAL_H)
             typeList.add(AdConstants.AdType.AD_SOURCE_ADMOB_INTERSTITIAL_M)
             typeList.add(AdConstants.AdType.AD_SOURCE_ADMOB_INTERSTITIAL)
+            typeList.add(AdConstants.AdType.AD_SOURCE_VG_INTERSTITIAL)
+            typeList.add(AdConstants.AdType.AD_SOURCE_APPLOVIN_INTERSTITIAL)
+            typeList.add(AdConstants.AdType.AD_SOURCE_ADCOLONY_INTERSTITIAL)
             var ad = FuseAdLoader.getAllTopAdByScenes(this, typeList, Constants.AD_SLOT_DOWNLOAD_INSTERSTITIAL, Constants.AD_SLOT_VIDEOEXIT)
             if (ad != null) {
                 ad.show()
@@ -584,6 +607,12 @@ class MainNavActivity : BaseActivity(), FragmentDownload.InfoCallback, FragmentH
                     FireBaseEventUtils.getInstance().report(Events.AD_TAB_ADSHOW_ADMOB)
                 } else if (ad.adType == AdConstants.AdType.AD_SOURCE_MOPUB_INTERSTITIAL) {
                     FireBaseEventUtils.getInstance().report(Events.AD_TAB_ADSHOW_MOPUB)
+                }else if (ad.adType == AdConstants.AdType.AD_SOURCE_VG_INTERSTITIAL) {
+                    FireBaseEventUtils.getInstance().report(Events.AD_TAB_ADSHOW_VG)
+                }else if (ad.adType == AdConstants.AdType.AD_SOURCE_APPLOVIN_INTERSTITIAL) {
+                    FireBaseEventUtils.getInstance().report(Events.AD_TAB_ADSHOW_APPLOVIN)
+                }else if (ad.adType == AdConstants.AdType.AD_SOURCE_ADCOLONY_INTERSTITIAL  ) {
+                    FireBaseEventUtils.getInstance().report(Events.AD_TAB_ADSHOW_ADCOLONY)
                 }
             } else {
                 mHandler?.postDelayed({

@@ -48,16 +48,14 @@ class MyApplication : MultiDexApplication(), LifecycleObserver {
         } catch (e: Exception) {
         }
 
-        loadMainAd()
+//        loadMainAd()
     }
-
-
 
     private fun initAd() {
         val builder = SDKConfiguration.Builder()
         builder.admobAppId("ca-app-pub-9470036790916620~1407094324")
                 .mopubAdUnit("bd1e2e0de6b9485b8e01b5dc40c71e97")
-                .vgAdUnit("607ecc86762cb31c4ed92104")
+                .vgAdUnit("616155990221f159a6d5cad6")
         FuseAdLoader.setBanInvalidAd(true)
         FuseAdLoader.init(object : FuseAdLoader.ConfigFetcher {
             override fun isAdFree(slot: String): Boolean {

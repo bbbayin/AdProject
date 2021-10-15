@@ -30,7 +30,11 @@ class BaseDataReportUtils private constructor() {
             reportDirect(key + "_mopub")
         } else if (ad.adType === AD_SOURCE_VG_INTERSTITIAL || ad.adType === AD_SOURCE_VG || ad.adType === AD_SOURCE_VG_REWARD || ad.adType === AD_SOURCE_VG_BANNER) {
             reportDirect(key + "_vungle")
-        }  else {
+        } else if (ad.adType === AD_SOURCE_APPLOVIN_BANNER || ad.adType === AD_SOURCE_APPLOVIN_INTERSTITIAL || ad.adType === AD_SOURCE_APPLOVIN_MREC || ad.adType === AD_SOURCE_APPLOVIN_REWARD) {
+            reportDirect(key + "_applovin")
+        } else if (ad.adType === AD_SOURCE_ADCOLONY_BANNER || ad.adType === AD_SOURCE_ADCOLONY_INTERSTITIAL ||  ad.adType === AD_SOURCE_ADCOLONY_REWARD) {
+            reportDirect(key + "_adcolony")
+        }   else {
             reportDirect(key + "_other")
         }
     }
@@ -49,6 +53,10 @@ class BaseDataReportUtils private constructor() {
             reportDirect(key + "_admob_m")
         } else if (ad.adType === AD_SOURCE_PROPHET) {
             reportDirect(key + "_prophet")
+        } else if (ad.adType === AD_SOURCE_APPLOVIN_BANNER || ad.adType === AD_SOURCE_APPLOVIN_INTERSTITIAL || ad.adType === AD_SOURCE_APPLOVIN_MREC || ad.adType === AD_SOURCE_APPLOVIN_REWARD  ) {
+            reportDirect(key + "_applovin")
+        } else if (ad.adType === AD_SOURCE_ADCOLONY_BANNER || ad.adType === AD_SOURCE_ADCOLONY_INTERSTITIAL || ad.adType === AD_SOURCE_ADCOLONY_REWARD) {
+            reportDirect(key + "_adcolony")
         }else {
             reportDirect(key + "_other")
         }

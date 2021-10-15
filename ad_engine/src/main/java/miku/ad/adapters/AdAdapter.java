@@ -16,7 +16,6 @@ import miku.ad.AdViewBinder;
 
 import static miku.ad.adapters.FuseAdLoader.isAdmob;
 import static miku.ad.adapters.FuseAdLoader.isMopub;
-import static miku.ad.adapters.FuseAdLoader.isVungle;
 
 
 public abstract class AdAdapter implements IAdAdapter {

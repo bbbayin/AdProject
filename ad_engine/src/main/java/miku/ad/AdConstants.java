@@ -24,6 +24,16 @@ public class AdConstants {
         public static final String AD_SOURCE_MOPUB_REWARD = "mp_reward";
 
         public static final String AD_SOURCE_PROPHET = "pp";
+
+        public static final String AD_SOURCE_APPLOVIN_BANNER = "applovin_banner";
+        public static final String AD_SOURCE_APPLOVIN_INTERSTITIAL = "applovin_interstitial";
+        public static final String AD_SOURCE_APPLOVIN_MREC = "applovin_mrec";
+        public static final String AD_SOURCE_APPLOVIN_REWARD = "applovin_reward";
+
+        public static final String AD_SOURCE_ADCOLONY_BANNER = "adcolony_banner";
+        public static final String AD_SOURCE_ADCOLONY_INTERSTITIAL = "adcolony_interstitial";
+        public static final String AD_SOURCE_ADCOLONY_REWARD = "adcolony_reward";
+
     }
 }
 

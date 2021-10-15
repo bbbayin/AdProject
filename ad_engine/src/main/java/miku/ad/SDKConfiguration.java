@@ -11,14 +11,15 @@ import java.util.Set;
 import miku.ad.adapters.FuseAdLoader;
 
 public class SDKConfiguration {
-    public String vgId="607ecc86762cb31c4ed92104";
+    public String vgId;
     public String admobAppId;
     public String mopubInitAdId;
     public String prophetId;
+    public String applovinId;
+
+    public String adcolonyId = "app30a92c741c3a48b092";
     public Set<String> supportedFuseAdType;
     public boolean needReward;
-
-
 
     public boolean hasAdmob() {
         return !TextUtils.isEmpty(admobAppId) && (supportedFuseAdType.contains(AdConstants.AdType.AD_SOURCE_ADMOB)
@@ -37,6 +38,17 @@ public class SDKConfiguration {
                 || supportedFuseAdType.contains(AdConstants.AdType.AD_SOURCE_VG_BANNER)
                 || supportedFuseAdType.contains(AdConstants.AdType.AD_SOURCE_VG_REWARD));
     }
+    public boolean hasApplovin() {
+        return (supportedFuseAdType.contains(AdConstants.AdType.AD_SOURCE_APPLOVIN_BANNER)
+                || supportedFuseAdType.contains(AdConstants.AdType.AD_SOURCE_APPLOVIN_INTERSTITIAL)
+                || supportedFuseAdType.contains(AdConstants.AdType.AD_SOURCE_APPLOVIN_MREC)
+                || supportedFuseAdType.contains(AdConstants.AdType.AD_SOURCE_APPLOVIN_REWARD));
+    }
+    public boolean hasAdcolony() {
+        return  (supportedFuseAdType.contains(AdConstants.AdType.AD_SOURCE_ADCOLONY_BANNER)
+                || supportedFuseAdType.contains(AdConstants.AdType.AD_SOURCE_ADCOLONY_INTERSTITIAL)
+                || supportedFuseAdType.contains(AdConstants.AdType.AD_SOURCE_ADCOLONY_REWARD));
+    }
 
     public boolean hasMopub() {
         try {
@@ -50,6 +62,10 @@ public class SDKConfiguration {
             AdLog.e(ex);
         }
         return false;
+    }
+
+    public String getAdcolonyId() {
+        return adcolonyId;
     }
 
     public String getProphetId() {
@@ -90,6 +106,22 @@ public class SDKConfiguration {
                 configuration.supportedFuseAdType.remove(AdConstants.AdType.AD_SOURCE_VG_REWARD);
                 AdLog.e("vungle not built in. Disabled");
             }
+
+            if(!configuration.hasApplovin()){
+                configuration.supportedFuseAdType.remove(AdConstants.AdType.AD_SOURCE_APPLOVIN_BANNER);
+                configuration.supportedFuseAdType.remove(AdConstants.AdType.AD_SOURCE_APPLOVIN_INTERSTITIAL);
+                configuration.supportedFuseAdType.remove(AdConstants.AdType.AD_SOURCE_APPLOVIN_REWARD);
+                configuration.supportedFuseAdType.remove(AdConstants.AdType.AD_SOURCE_APPLOVIN_MREC);
+                AdLog.e("applovin not built in. Disabled");
+            }
+
+            if(!configuration.hasAdcolony()){
+                configuration.supportedFuseAdType.remove(AdConstants.AdType.AD_SOURCE_ADCOLONY_INTERSTITIAL);
+                configuration.supportedFuseAdType.remove(AdConstants.AdType.AD_SOURCE_ADCOLONY_BANNER);
+                configuration.supportedFuseAdType.remove(AdConstants.AdType.AD_SOURCE_ADCOLONY_REWARD);
+                AdLog.e("adcolony not built in. Disabled");
+            }
+
             if (!configuration.hasProphet()) {
                 configuration.supportedFuseAdType.remove(AdConstants.AdType.AD_SOURCE_PROPHET);
                 AdLog.e("Prophet Disabled");
@@ -114,6 +146,11 @@ public class SDKConfiguration {
             configuration.prophetId = s;
             return this;
         }
+        public Builder applovinAd(String s){
+            configuration.applovinId = s;
+            return this;
+        }
+
     }
 
 }

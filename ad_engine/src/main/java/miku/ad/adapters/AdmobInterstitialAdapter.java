@@ -66,7 +66,7 @@ public class AdmobInterstitialAdapter extends AdAdapter {
 
     @Override
     public void loadAd(final Context context, int num, IAdLoadListener listener) {
-        Log.d("fuseAdLoader", "load interstitialAd");
+        Log.d("fuseAdLoader", "load AdmobInterstitialAdapter");
         mStartLoadedTime = System.currentTimeMillis();
         adListener = listener;
         if (listener == null) {

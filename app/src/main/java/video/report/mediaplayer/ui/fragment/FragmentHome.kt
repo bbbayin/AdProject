@@ -140,6 +140,9 @@ class FragmentHome : BaseFragment(), HomeContact.View {
                         typeList.add(AdConstants.AdType.AD_SOURCE_ADMOB_H)
                         typeList.add(AdConstants.AdType.AD_SOURCE_ADMOB_M)
                         typeList.add(AdConstants.AdType.AD_SOURCE_ADMOB)
+                        typeList.add(AdConstants.AdType.AD_SOURCE_VG)
+                        typeList.add(AdConstants.AdType.AD_SOURCE_APPLOVIN_BANNER)
+                        typeList.add(AdConstants.AdType.AD_SOURCE_ADCOLONY_BANNER)
                         var ad = FuseAdLoader.getAllTopAdByScenes(activity, typeList,true, Constants.AD_SLOT_HOMEPAGE, Constants.AD_SLOT_DOWNLOADLIST)
                         inflateNativeAd(ad)
                     }
@@ -159,6 +162,9 @@ class FragmentHome : BaseFragment(), HomeContact.View {
                     typeList.add(AdConstants.AdType.AD_SOURCE_ADMOB_H)
                     typeList.add(AdConstants.AdType.AD_SOURCE_ADMOB_M)
                     typeList.add(AdConstants.AdType.AD_SOURCE_ADMOB)
+                    typeList.add(AdConstants.AdType.AD_SOURCE_VG)
+                    typeList.add(AdConstants.AdType.AD_SOURCE_APPLOVIN_BANNER)
+                    typeList.add(AdConstants.AdType.AD_SOURCE_ADCOLONY_BANNER)
                     var ad = FuseAdLoader.getAllTopAdByScenes(activity, typeList, Constants.AD_SLOT_HOMEPAGE, Constants.AD_SLOT_DOWNLOADLIST)
                     if (ad != null) {
                         inflateNativeAd(ad)

@@ -46,7 +46,9 @@ class VPlayerActivity : BaseActivity() {
             typeList.add(AdConstants.AdType.AD_SOURCE_ADMOB_INTERSTITIAL_H)
             typeList.add(AdConstants.AdType.AD_SOURCE_ADMOB_INTERSTITIAL_M)
             typeList.add(AdConstants.AdType.AD_SOURCE_ADMOB_INTERSTITIAL)
-//            typeList.add(AdConstants.AdType.AD_SOURCE_VG_INTERSTITIAL)
+            typeList.add(AdConstants.AdType.AD_SOURCE_VG_INTERSTITIAL)
+            typeList.add(AdConstants.AdType.AD_SOURCE_APPLOVIN_INTERSTITIAL)
+            typeList.add(AdConstants.AdType.AD_SOURCE_ADCOLONY_INTERSTITIAL)
             var ad = FuseAdLoader.getAllTopAdByScenes(this, typeList, Constants.AD_SLOT_VIDEOEXIT, Constants.AD_SLOT_DOWNLOAD_INSTERSTITIAL)
 
             if (ad != null) {
@@ -56,6 +58,12 @@ class VPlayerActivity : BaseActivity() {
                     FireBaseEventUtils.getInstance().report(Events.AD_VIDEOEXIT_ADSHOW_ADMOB)
                 }else if (ad.adType == AdConstants.AdType.AD_SOURCE_MOPUB_INTERSTITIAL) {
                     FireBaseEventUtils.getInstance().report(Events.AD_VIDEOEXIT_ADSHOW_MOPUB)
+                }else if (ad.adType == AdConstants.AdType.AD_SOURCE_VG_INTERSTITIAL) {
+                    FireBaseEventUtils.getInstance().report(Events.AD_VIDEOEXIT_ADSHOW_VUNGLE)
+                }else if (ad.adType == AdConstants.AdType.AD_SOURCE_APPLOVIN_INTERSTITIAL) {
+                    FireBaseEventUtils.getInstance().report(Events.AD_VIDEOEXIT_ADSHOW_APPLOVIN)
+                }else if (ad.adType == AdConstants.AdType.AD_SOURCE_ADCOLONY_INTERSTITIAL) {
+                    FireBaseEventUtils.getInstance().report(Events.AD_VIDEOEXIT_ADSHOW_ADCOLONY)
                 }
                 super.finish()
             } else {

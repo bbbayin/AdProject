@@ -47,7 +47,7 @@ dependencies {
 //        transitive = true
 //    }
     //vungle
-//    compileOnly 'com.vungle:publisher-sdk-android:6.4.11'
+    implementation 'com.vungle:publisher-sdk-android:6.10.2'
     implementation('com.github.bumptech.glide:glide:4.12.0')
     api 'androidx.core:core-ktx:1.6.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -63,8 +63,10 @@ dependencies {
 //    implementation 'com.squareup.picasso:picasso:2.71828'
 //    implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
-    implementation "com.google.ads.mediation:applovin:${applovin_version}"
+//    implementation "com.google.ads.mediation:applovin:${applovin_version}"
+    implementation 'com.adcolony:sdk:4.6.4'
+    implementation 'com.applovin:applovin-sdk:10.3.4'
     //adcolony
     implementation 'androidx.annotation:annotation:1.2.0'
-    implementation 'com.google.ads.mediation:adcolony:4.1.4.0'
+//    implementation 'com.google.ads.mediation:adcolony:4.1.4.0'
 }

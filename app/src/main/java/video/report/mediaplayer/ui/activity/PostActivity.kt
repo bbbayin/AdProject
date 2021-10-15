@@ -101,7 +101,9 @@ class PostActivity : BaseActivity() {
             typeList.add(AdConstants.AdType.AD_SOURCE_ADMOB_INTERSTITIAL_H)
             typeList.add(AdConstants.AdType.AD_SOURCE_ADMOB_INTERSTITIAL_M)
             typeList.add(AdConstants.AdType.AD_SOURCE_ADMOB_INTERSTITIAL)
-//            typeList.add(AdConstants.AdType.AD_SOURCE_VG_INTERSTITIAL)
+            typeList.add(AdConstants.AdType.AD_SOURCE_VG_INTERSTITIAL)
+            typeList.add(AdConstants.AdType.AD_SOURCE_APPLOVIN_INTERSTITIAL)
+            typeList.add(AdConstants.AdType.AD_SOURCE_ADCOLONY_INTERSTITIAL)
             var ad = FuseAdLoader.getAllTopAdByScenes(this, typeList, Constants.AD_SLOT_VIDEOEXIT, Constants.AD_SLOT_DOWNLOAD_INSTERSTITIAL)
             if (ad != null) {
                 ad?.show()

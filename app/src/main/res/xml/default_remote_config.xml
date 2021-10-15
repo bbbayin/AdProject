@@ -2,22 +2,21 @@
 <defaultsMap>
     <entry>
         <key>slot_homepage_native</key>
-        <value>mp:11a17b188668469fb0412708c3d16813:0;adm:ca-app-pub-3940256099942544/2247696110:0</value>
+        <value>mp:11a17b188668469fb0412708c3d16813:0;adm:ca-app-pub-3940256099942544/2247696110:0;vg:BANNER-3999823;applovin_banner:252bfc8933b15f06;adcolony_banner:vzcb11d4878cae4f129e</value>
     </entry>
 
     <entry>
         <key>slot_downloadlist_native</key>
-        <value>mp:11a17b188668469fb0412708c3d16813:0;adm:ca-app-pub-3940256099942544/2247696110:0</value>
+        <value>mp:11a17b188668469fb0412708c3d16813:0;adm:ca-app-pub-3940256099942544/2247696110:0;vg:BANNER-3999823;applovin_banner:252bfc8933b15f06;adcolony_banner:vzcb11d4878cae4f129e</value>
     </entry>
 
     <entry>
         <key>slot_videoexit_insterstitial</key>
-        <value>mp_interstitial:24534e1901884e398f1253216226017e:0;ab_interstitial:ca-app-pub-3940256099942544/1033173712:0</value>
+        <value>mp_interstitial:24534e1901884e398f1253216226017e:0;ab_interstitial:ca-app-pub-3940256099942544/1033173712:0;vg_interstitial:INTERSTITIAL-0608258;applovin_interstitial:a6e6c868327cb607;adcolony_interstitial:vz6d71d6d6767b40e5b5</value>
     </entry>
-
     <entry>
         <key>slot_download_insterstitial</key>
-        <value>mp_interstitial:24534e1901884e398f1253216226017e:0;ab_interstitial:ca-app-pub-3940256099942544/1033173712:0</value>
+        <value>mp_interstitial:24534e1901884e398f1253216226017e:0;ab_interstitial:ca-app-pub-3940256099942544/1033173712:0;vg_interstitial:INTERSTITIAL-0608258;applovin_interstitial:a6e6c868327cb607;adcolony_interstitial:vz6d71d6d6767b40e5b5</value>
     </entry>
 
     <entry>

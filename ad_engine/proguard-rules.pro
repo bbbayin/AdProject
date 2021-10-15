@@ -32,7 +32,9 @@
 -keep public class com.android.vending.licensing.ILicensingService
 -keep public class com.polestar.videodownloader.reading.*
 -keep public class com.google.** { public *;}
-
+-keepclassmembers class * {
+    @android.webkit.JavascriptInterface <methods>;
+}
 -keepclasseswithmembernames class * {
     native <methods>;
 }
@@ -78,6 +80,7 @@
 -keepattributes SourceFile,LineNumberTable
 -keep class com.inmobi.** { *; }
 -keep public class com.google.android.gms.**
+-keep public class com.google.android.gms.** { public protected *; }
 -dontwarn com.google.android.gms.**
 -dontwarn com.squareup.picasso.**
 -keep class com.google.android.gms.ads.identifier.AdvertisingIdClient{

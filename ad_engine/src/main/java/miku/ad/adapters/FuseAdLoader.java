@@ -11,6 +11,8 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.applovin.sdk.AppLovinSdk;
+import com.applovin.sdk.AppLovinSdkConfiguration;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
@@ -18,8 +20,9 @@ import com.google.android.gms.ads.initialization.OnInitializationCompleteListene
 import com.mopub.common.MoPub;
 import com.mopub.common.SdkConfiguration;
 import com.mopub.common.SdkInitializationListener;
-//import com.vungle.warren.InitCallback;
-//import com.vungle.warren.Vungle;
+import com.vungle.warren.InitCallback;
+import com.vungle.warren.Vungle;
+import com.vungle.warren.error.VungleException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,6 +41,9 @@ import miku.firebase.BaseDataReportUtils;
 import miku.utils.Utils;
 import miku.storage.LocalDataSourceImpl;
 
+import static miku.ad.AdConstants.AdType.AD_SOURCE_ADCOLONY_BANNER;
+import static miku.ad.AdConstants.AdType.AD_SOURCE_ADCOLONY_INTERSTITIAL;
+import static miku.ad.AdConstants.AdType.AD_SOURCE_ADCOLONY_REWARD;
 import static miku.ad.AdConstants.AdType.AD_SOURCE_ADMOB;
 import static miku.ad.AdConstants.AdType.AD_SOURCE_ADMOB_BANNER;
 import static miku.ad.AdConstants.AdType.AD_SOURCE_ADMOB_H;
@@ -46,6 +52,10 @@ import static miku.ad.AdConstants.AdType.AD_SOURCE_ADMOB_INTERSTITIAL_H;
 import static miku.ad.AdConstants.AdType.AD_SOURCE_ADMOB_INTERSTITIAL_M;
 import static miku.ad.AdConstants.AdType.AD_SOURCE_ADMOB_M;
 import static miku.ad.AdConstants.AdType.AD_SOURCE_ADMOB_REWARD;
+import static miku.ad.AdConstants.AdType.AD_SOURCE_APPLOVIN_BANNER;
+import static miku.ad.AdConstants.AdType.AD_SOURCE_APPLOVIN_INTERSTITIAL;
+import static miku.ad.AdConstants.AdType.AD_SOURCE_APPLOVIN_MREC;
+import static miku.ad.AdConstants.AdType.AD_SOURCE_APPLOVIN_REWARD;
 import static miku.ad.AdConstants.AdType.AD_SOURCE_MOPUB;
 import static miku.ad.AdConstants.AdType.AD_SOURCE_MOPUB_INTERSTITIAL;
 import static miku.ad.AdConstants.AdType.AD_SOURCE_MOPUB_REWARD;
@@ -181,32 +191,42 @@ public class FuseAdLoader {
         }
     }
 
+    private static void initApplovin(Context context){
+//        AppLovinSdk.getInstance( context ).setMediationProvider( "max" );
+        AppLovinSdk.initializeSdk( context, new AppLovinSdk.SdkInitializationListener() {
+            @Override
+            public void onSdkInitialized(final AppLovinSdkConfiguration configuration)
+            {
+                // AppLovin SDK is initialized, start loading ads
+            }
+        } );
+    }
+
     private static void initVungle(Context context, String vgId) {
         if (AdConstants.DEBUG) {
-            vgId = "607ecc86762cb31c4ed92104";
+            vgId = "616155990221f159a6d5cad6";
         }
-//        Log.i("VGInterstitial", "Vungle initialized = " + vgId);
-//        Vungle.init(vgId, context, new InitCallback() {
-//            @Override
-//            public void onSuccess() {
-//                Log.i("VGInterstitial", "Vungle initialized onSuccess");
-//                // Initialization has succeeded and SDK is ready to load an ad or play one if there
-//                // is one pre-cached already
-//            }
-//
-//            @Override
-//            public void onError(Throwable throwable) {
-//                AdLog.d("Vungle initialized onError = " + throwable.getMessage());
-//                // Initialization error occurred - throwable.getLocalizedMessage() contains error message
-//            }
-//
-//            @Override
-//            public void onAutoCacheAdAvailable(String placementId) {
-//                // Callback to notify when an ad becomes available for the cache optimized placement
-//                // NOTE: This callback works only for the cache optimized placement. Otherwise, please use
-//                // LoadAdCallback with loadAd API for loading placements.
-//            }
-//        });
+        Log.i("VGInterstitial", "Vungle initialized = " + vgId);
+        Vungle.init(vgId, context, new InitCallback() {
+            @Override
+            public void onSuccess() {
+                Log.i("VGInterstitial", "Vungle initialized onSuccess");
+                // Initialization has succeeded and SDK is ready to load an ad or play one if there
+                // is one pre-cached already
+            }
+
+            @Override
+            public void onError(VungleException exception) {
+                AdLog.d("Vungle initialized onError = " + exception);
+            }
+
+            @Override
+            public void onAutoCacheAdAvailable(String placementId) {
+                // Callback to notify when an ad becomes available for the cache optimized placement
+                // NOTE: This callback works only for the cache optimized placement. Otherwise, please use
+                // LoadAdCallback with loadAd API for loading placements.
+            }
+        });
     }
 
     public static Context getContext() {
@@ -223,8 +243,6 @@ public class FuseAdLoader {
         sConfigFetcher = depends;
         sConfiguration = configuration;
         if (sConfiguration.hasAdmob()) {
-//            MobileAds.initialize(context, configuration.admobAppId);
-
             MobileAds.initialize(context, new OnInitializationCompleteListener() {
                 @Override
                 public void onInitializationComplete(InitializationStatus initializationStatus) {
@@ -235,6 +253,15 @@ public class FuseAdLoader {
         if (sConfiguration.hasVG()) {
             initVungle(context, configuration.vgId);
         }
+
+        if(sConfiguration.hasApplovin()){
+            initApplovin(context );
+        }
+
+        if(sConfiguration.hasAdcolony()){
+
+        }
+
         if (context instanceof Activity) {
             sInitializedWithActivity = true;
             if (sConfiguration.hasMopub()) {
@@ -324,6 +351,18 @@ public class FuseAdLoader {
 
     public static boolean isVungle(IAdAdapter ad) {
         if (ad.getAdType() == AD_SOURCE_VG || ad.getAdType() == AD_SOURCE_VG_INTERSTITIAL || ad.getAdType() == AD_SOURCE_VG_BANNER) {
+            return true;
+        }
+        return false;
+    }
+    public static boolean isApplovin(IAdAdapter ad) {
+        if (ad.getAdType() == AD_SOURCE_APPLOVIN_BANNER || ad.getAdType() == AD_SOURCE_APPLOVIN_INTERSTITIAL || ad.getAdType() == AD_SOURCE_APPLOVIN_MREC || ad.getAdType() == AD_SOURCE_APPLOVIN_REWARD) {
+            return true;
+        }
+        return false;
+    }
+    public static boolean isAdcolony(IAdAdapter ad) {
+        if (ad.getAdType() == AD_SOURCE_ADCOLONY_BANNER || ad.getAdType() == AD_SOURCE_ADCOLONY_INTERSTITIAL || ad.getAdType() == AD_SOURCE_ADCOLONY_REWARD) {
             return true;
         }
         return false;
@@ -500,7 +539,7 @@ public class FuseAdLoader {
         }
         IAdAdapter cache = getValidCache(type, useProphet);
         if (cache != null) {
-            AdLog.d(mSlot + "get cache return " + cache);
+            AdLog.d(mSlot + " get cache return " + cache);
             return cache;
         }
         return null;
@@ -831,7 +870,6 @@ public class FuseAdLoader {
                     return new AdmobInterstitialHAdapter(mAppContext, config.key, mSlot);
                 case AD_SOURCE_ADMOB_INTERSTITIAL_M:
                     return new AdmobInterstitialMAdapter(mAppContext, config.key, mSlot);
-                // admob 插屏广告
                 // admob 激励广告
                 case AD_SOURCE_ADMOB_REWARD:
                     return new AdmobRewardVideoAdapter(mAppContext, config.key, mSlot);
@@ -844,11 +882,32 @@ public class FuseAdLoader {
                 // mopub  激励视频广告
 //                case AdConstants.AdType.AD_SOURCE_MOPUB_REWARD:
 //                    return new MopubRewardVideoAdapter(mAppContext, config.key, mSlot);
-//                // vungle  插屏广告
-//                case AdConstants.AdType.AD_SOURCE_VG_INTERSTITIAL:
-//                    return new VGInterstitialAdapter(mAppContext, config.key, mSlot);
+                //vungle 横幅广告
+                case AD_SOURCE_VG:
+                 return  new VGBannerAdapter(mAppContext, config.key, mSlot);
+//                case AD_SOURCE_VG_BANNER:
+//                    return  new VGBannerAdapter(mAppContext, config.key, mSlot);
+                // vungle  插屏广告
+                case AD_SOURCE_VG_INTERSTITIAL:
+                    return new VGInterstitialAdapter(mAppContext, config.key, mSlot);
                 case AD_SOURCE_PROPHET:
                     return new ProphetNativeAdapter(mAppContext, config.key, mSlot);
+                //applovin
+                case AD_SOURCE_APPLOVIN_BANNER:
+                    return new ApplovinBannerAdapter(mAppContext,config.key,mSlot);
+                case AD_SOURCE_APPLOVIN_INTERSTITIAL:
+                    return new ApplovinInterstitialAdapter(mAppContext,config.key,mSlot);
+//                case AD_SOURCE_APPLOVIN_MREC:
+//                    return null;
+//                case AD_SOURCE_APPLOVIN_REWARD:
+//                    return null;
+                //adcolony
+                case AD_SOURCE_ADCOLONY_BANNER:
+                    return new AdcolonyBannerAdapter(mAppContext,config.key,mSlot);
+                case AD_SOURCE_ADCOLONY_INTERSTITIAL:
+                    return new AdcolonyInterstitialAdapter(mAppContext,config.key,mSlot);
+//                case AD_SOURCE_ADCOLONY_REWARD:
+//                    return null;
                 default:
                     AdLog.e("not suppported source " + config.source);
                     return null;
@@ -894,7 +953,15 @@ public class FuseAdLoader {
         SUPPORTED_TYPES.add(AD_SOURCE_MOPUB);
         SUPPORTED_TYPES.add(AD_SOURCE_MOPUB_INTERSTITIAL);
         SUPPORTED_TYPES.add(AD_SOURCE_VG_INTERSTITIAL);
+        SUPPORTED_TYPES.add(AD_SOURCE_VG);
         SUPPORTED_TYPES.add(AD_SOURCE_PROPHET);
+        SUPPORTED_TYPES.add(AD_SOURCE_APPLOVIN_BANNER);
+        SUPPORTED_TYPES.add(AD_SOURCE_APPLOVIN_INTERSTITIAL);
+        SUPPORTED_TYPES.add(AD_SOURCE_APPLOVIN_MREC);
+        SUPPORTED_TYPES.add(AD_SOURCE_APPLOVIN_REWARD);
+        SUPPORTED_TYPES.add(AD_SOURCE_ADCOLONY_BANNER);
+        SUPPORTED_TYPES.add(AD_SOURCE_ADCOLONY_INTERSTITIAL);
+        SUPPORTED_TYPES.add(AD_SOURCE_ADCOLONY_REWARD);
 
     }
 

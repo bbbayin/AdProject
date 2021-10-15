@@ -132,6 +132,9 @@ class FragmentDownload : BaseFragment() {
                         typeList.add(AdConstants.AdType.AD_SOURCE_ADMOB_H)
                         typeList.add(AdConstants.AdType.AD_SOURCE_ADMOB_M)
                         typeList.add(AdConstants.AdType.AD_SOURCE_ADMOB)
+                        typeList.add(AdConstants.AdType.AD_SOURCE_VG)
+                        typeList.add(AdConstants.AdType.AD_SOURCE_APPLOVIN_BANNER)
+                        typeList.add(AdConstants.AdType.AD_SOURCE_ADCOLONY_BANNER)
                         var ad = FuseAdLoader.getAllTopAdByScenes(activity, typeList,true, Constants.AD_SLOT_DOWNLOADLIST, Constants.AD_SLOT_HOMEPAGE)
                         inflateNativeAd(ad)
                     }
@@ -152,6 +155,9 @@ class FragmentDownload : BaseFragment() {
                     typeList.add(AdConstants.AdType.AD_SOURCE_ADMOB_H)
                     typeList.add(AdConstants.AdType.AD_SOURCE_ADMOB_M)
                     typeList.add(AdConstants.AdType.AD_SOURCE_ADMOB)
+                    typeList.add(AdConstants.AdType.AD_SOURCE_VG)
+                    typeList.add(AdConstants.AdType.AD_SOURCE_APPLOVIN_BANNER)
+                    typeList.add(AdConstants.AdType.AD_SOURCE_ADCOLONY_BANNER)
                     var ad = FuseAdLoader.getAllTopAdByScenes(activity, typeList,true, Constants.AD_SLOT_DOWNLOADLIST, Constants.AD_SLOT_HOMEPAGE)
                     if (ad != null) {
                         inflateNativeAd(ad)
@@ -185,6 +191,12 @@ class FragmentDownload : BaseFragment() {
                             FireBaseEventUtils.getInstance().report(Events.AD_DOWNLOADSTAB_ADSHOW_ADMOB)
                         }else if (ad.adType == AdConstants.AdType.AD_SOURCE_MOPUB) {
                             FireBaseEventUtils.getInstance().report(Events.AD_DOWNLOADSTAB_ADSHOW_MOPUB)
+                        }else if (ad.adType == AdConstants.AdType.AD_SOURCE_VG) {
+                            FireBaseEventUtils.getInstance().report(Events.AD_DOWNLOADSTAB_ADSHOW_VUNGLE)
+                        }else if (ad.adType == AdConstants.AdType.AD_SOURCE_APPLOVIN_BANNER) {
+                            FireBaseEventUtils.getInstance().report(Events.AD_DOWNLOADSTAB_ADSHOW_APPLOVIN)
+                        }else if (ad.adType == AdConstants.AdType.AD_SOURCE_ADCOLONY_BANNER) {
+                            FireBaseEventUtils.getInstance().report(Events.AD_DOWNLOADSTAB_ADSHOW_ADCOLONY)
                         }
                         BaseDataReportUtils.getInstance().reportAdTypeShowAndClick(ad, Events.AD_DOWNLOADS_ADSHOW)
                     }
