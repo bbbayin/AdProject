@@ -894,9 +894,9 @@ public class FuseAdLoader {
                     return new ProphetNativeAdapter(mAppContext, config.key, mSlot);
                 //applovin
                 case AD_SOURCE_APPLOVIN_BANNER:
-                    return new ApplovinBannerAdapter(mAppContext,config.key,mSlot);
+                    return new ApplovinMaxBannerAdapter(mAppContext,config.key,mSlot);
                 case AD_SOURCE_APPLOVIN_INTERSTITIAL:
-                    return new ApplovinInterstitialAdapter(mAppContext,config.key,mSlot);
+                    return new ApplovinMaxInterstitialAdapter(mAppContext,config.key,mSlot);
 //                case AD_SOURCE_APPLOVIN_MREC:
 //                    return null;
 //                case AD_SOURCE_APPLOVIN_REWARD:
