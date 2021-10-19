@@ -97,7 +97,7 @@ public class AdUtils {
 
     private static void setCurrentDate(Context context ){
         SharedPreferences var = context.getSharedPreferences("sdk_preference", 0);
-        var.edit().putLong("currentDate", System.currentTimeMillis()).apply();
+        var.edit().putLong("currentDate", System.currentTimeMillis()).commit();
     }
 
     public static String getAndroidID(Context context) {
