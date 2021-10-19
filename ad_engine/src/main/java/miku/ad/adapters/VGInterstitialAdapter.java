@@ -12,6 +12,7 @@ import com.vungle.warren.error.VungleException;
 
 import miku.ad.AdConstants;
 import miku.ad.AdLog;
+import miku.ad.AdUtils;
 
 
 public class VGInterstitialAdapter extends AdAdapter {
@@ -19,7 +20,7 @@ public class VGInterstitialAdapter extends AdAdapter {
 //    private final static String PLACMENT_ID = "INTERSTITIAL-0608258";
     private VungleBanner rawAd;
     private String mKey;
-
+    private Context mContext;
 
     public VGInterstitialAdapter(Context context, String key, String slot) {
         super(context, key, slot);
@@ -101,6 +102,10 @@ public class VGInterstitialAdapter extends AdAdapter {
         @Override
         public void onAdClick(String id) {
             // User clicked on ad
+            AdLog.d(TAG,"onAdClick");
+            AdUtils.setVungleClickNum(mContext);
+            VGInterstitialAdapter.this.onAdClicked();
+            FuseAdLoader.reportAdClick(VGInterstitialAdapter.this);
         }
 
         @Override
@@ -129,12 +134,11 @@ public class VGInterstitialAdapter extends AdAdapter {
         AdLog.d("VGInterstitial loadAd    " + listener);
         mStartLoadedTime = System.currentTimeMillis();
         adListener = listener;
+        mContext = context;
         if (listener == null) {
             AdLog.e("listener is null!!");
             return;
         }
-
-
         if (Vungle.isInitialized()) {
             Vungle.loadAd(mKey, new LoadAdCallback() {
                 @Override

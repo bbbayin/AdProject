@@ -18,6 +18,7 @@ import com.adcolony.sdk.AdColonyZone;
 
 import miku.ad.AdConstants;
 import miku.ad.AdLog;
+import miku.ad.AdUtils;
 
 public class AdcolonyInterstitialAdapter extends AdAdapter {
     private final static String TAG = "ApplovinInterstitialAdapter";
@@ -134,7 +135,10 @@ public class AdcolonyInterstitialAdapter extends AdAdapter {
                 @Override
                 public void onOpened(AdColonyInterstitial ad) {
                     // Ad opened, reset UI to reflect state change
-                    Log.d(TAG, "onOpened");
+                    AdLog.d(TAG, "onOpened");
+                    AdUtils.setAdcolonyClickNum(context);
+                    AdcolonyInterstitialAdapter.this.onAdClicked();
+                    FuseAdLoader.reportAdClick(AdcolonyInterstitialAdapter.this);
                 }
 
                 @Override
@@ -144,6 +148,8 @@ public class AdcolonyInterstitialAdapter extends AdAdapter {
                     Log.d(TAG, "onExpiring");
                 }
             };
+
+
 
             AdColony.requestInterstitial(mKey, interstitialListener, adOptions);
             startMonitor();

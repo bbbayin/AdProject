@@ -885,18 +885,25 @@ public class FuseAdLoader {
                 //vungle 横幅广告
                 case AD_SOURCE_VG:
                  return  new VGBannerAdapter(mAppContext, config.key, mSlot);
-//                case AD_SOURCE_VG_BANNER:
-//                    return  new VGBannerAdapter(mAppContext, config.key, mSlot);
                 // vungle  插屏广告
                 case AD_SOURCE_VG_INTERSTITIAL:
-                    return new VGInterstitialAdapter(mAppContext, config.key, mSlot);
+                    if(AdUtils.checkTimes(mAppContext,"vungle")){
+                        return new VGInterstitialAdapter(mAppContext, config.key, mSlot);
+                    }else{
+                        return null;
+                    }
                 case AD_SOURCE_PROPHET:
                     return new ProphetNativeAdapter(mAppContext, config.key, mSlot);
                 //applovin
                 case AD_SOURCE_APPLOVIN_BANNER:
                     return new ApplovinMaxBannerAdapter(mAppContext,config.key,mSlot);
                 case AD_SOURCE_APPLOVIN_INTERSTITIAL:
-                    return new ApplovinMaxInterstitialAdapter(mAppContext,config.key,mSlot);
+                    if(AdUtils.checkTimes(mAppContext,"applovin")){
+                        return new ApplovinMaxInterstitialAdapter(mAppContext, config.key, mSlot);
+                    }else{
+                        return null;
+                    }
+//                    return new ApplovinMaxInterstitialAdapter(mAppContext,config.key,mSlot);
 //                case AD_SOURCE_APPLOVIN_MREC:
 //                    return null;
 //                case AD_SOURCE_APPLOVIN_REWARD:
@@ -905,9 +912,13 @@ public class FuseAdLoader {
                 case AD_SOURCE_ADCOLONY_BANNER:
                     return new AdcolonyBannerAdapter(mAppContext,config.key,mSlot);
                 case AD_SOURCE_ADCOLONY_INTERSTITIAL:
-                    return new AdcolonyInterstitialAdapter(mAppContext,config.key,mSlot);
-//                case AD_SOURCE_ADCOLONY_REWARD:
-//                    return null;
+                    if(AdUtils.checkTimes(mAppContext,"adcolony")){
+                        return new AdcolonyInterstitialAdapter(mAppContext, config.key, mSlot);
+                    }else{
+                        return null;
+                    }
+//                    return new AdcolonyInterstitialAdapter(mAppContext,config.key,mSlot);
+
                 default:
                     AdLog.e("not suppported source " + config.source);
                     return null;

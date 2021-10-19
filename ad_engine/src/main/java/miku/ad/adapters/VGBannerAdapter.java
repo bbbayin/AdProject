@@ -132,9 +132,8 @@ public class VGBannerAdapter extends AdAdapter {
                     }
                     stopMonitor();
                     mStartLoadedTime = 0;
-                    AdLog.d("VGBanner loadAd error  " +  e.getCause().getMessage());
 
-                    VGBannerAdapter.this.onError(String.valueOf(e.getCause().getMessage()));
+                    VGBannerAdapter.this.onError(String.valueOf(e.getMessage()));
                 }
             });
         }

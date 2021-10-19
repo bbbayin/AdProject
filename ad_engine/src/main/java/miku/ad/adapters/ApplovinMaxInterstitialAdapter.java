@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.nfc.Tag;
 import android.util.Log;
 import android.view.View;
 
@@ -16,12 +17,12 @@ import com.applovin.mediation.ads.MaxInterstitialAd;
 
 import miku.ad.AdConstants;
 import miku.ad.AdLog;
+import miku.ad.AdUtils;
 
 public class ApplovinMaxInterstitialAdapter extends AdAdapter {
     private final static String TAG = "ApplovinMaxInterstitialAdapter";
     private MaxInterstitialAd interstitialAd;
     private String mKey;
-    private int retryAttempt;
 
     public ApplovinMaxInterstitialAdapter(Context context, String key, String slot) {
         super(context, key, slot);
@@ -89,7 +90,6 @@ public class ApplovinMaxInterstitialAdapter extends AdAdapter {
                 @SuppressLint("LongLogTag")
                 @Override
                 public void onAdLoaded(MaxAd ad) {
-                    retryAttempt = 0;
                     AdLog.i(ApplovinMaxInterstitialAdapter.TAG, "onAdLoaded");
                     AdLog.d("fuseAdLoader", "onLoaded");
 
@@ -116,7 +116,10 @@ public class ApplovinMaxInterstitialAdapter extends AdAdapter {
 
                 @Override
                 public void onAdClicked(MaxAd ad) {
-
+                    AdLog.d(TAG,"onAdClicked");
+                    AdUtils.setApplovinClickNum(context);
+                    ApplovinMaxInterstitialAdapter.this.onAdClicked();
+                    FuseAdLoader.reportAdClick(ApplovinMaxInterstitialAdapter.this);
                 }
 
                 @Override
