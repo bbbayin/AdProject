@@ -1,0 +1,10 @@
+
+vungle    AppId:616155990221f159a6d5cad6
+adcolony  AppId:app30a92c741c3a48b092
+配置地址：myapplication 文件 initAd 方法
+
+
+applovin
+<meta-data android:name="applovin.sdk.key"
+           android:value="UVFKs6_PEcfIfb2_k_eCleSqIvxwR1dc7VtN-__apt0fQOpdyzWoc4k824MEna0QfoA7DRMGc_HQZV-1uQS3oT"/>
+配置地址：AndroidManifest.xml   文件

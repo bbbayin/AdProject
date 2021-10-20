@@ -56,6 +56,8 @@ class MyApplication : MultiDexApplication(), LifecycleObserver {
         builder.admobAppId("ca-app-pub-9470036790916620~1407094324")
                 .mopubAdUnit("bd1e2e0de6b9485b8e01b5dc40c71e97")
                 .vgAdUnit("616155990221f159a6d5cad6")
+                .adcolonyAd("app30a92c741c3a48b092")
+
         FuseAdLoader.setBanInvalidAd(true)
         FuseAdLoader.init(object : FuseAdLoader.ConfigFetcher {
             override fun isAdFree(slot: String): Boolean {

@@ -18,6 +18,7 @@ import com.adcolony.sdk.AdColonyZone;
 
 import miku.ad.AdConstants;
 import miku.ad.AdLog;
+import miku.ad.AdUtils;
 import miku.ad.AdViewBinder;
 
 public class AdcolonyBannerAdapter extends AdAdapter {
@@ -25,8 +26,6 @@ public class AdcolonyBannerAdapter extends AdAdapter {
 
     private String mKey;
 
-//    private final String APP_ID = "app30a92c741c3a48b092";
-//    private final String ZONE_ID = "vzcb11d4878cae4f129e";
     private AdColonyAdViewListener adViewListener;
     private AdColonyAdOptions adOptions;
     private AdColonyAdView adView;
@@ -139,6 +138,9 @@ public class AdcolonyBannerAdapter extends AdAdapter {
                 public void onClicked(AdColonyAdView ad) {
                     super.onClicked(ad);
                     Log.d(TAG, "onClicked");
+
+                    AdUtils.setAdcolonyBannerClickNum(context);
+                    AdcolonyBannerAdapter.this.onAdClicked();
                     FuseAdLoader.reportAdClick(AdcolonyBannerAdapter.this);
 
                 }

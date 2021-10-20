@@ -38,7 +38,7 @@ public class AdmobBannerAdapter extends AdAdapter {
         return mRawAd;
     }
 
-    private void initAdView(Context context) {
+    private void initAdView(final Context context) {
         if (mRawAd == null) {
             mRawAd = new AdView(context);
             mRawAd.setAdSize(mSize);
@@ -72,7 +72,10 @@ public class AdmobBannerAdapter extends AdAdapter {
                     if (adListener != null) {
                         adListener.onAdClicked(AdmobBannerAdapter.this);
                     }
+
+                    AdUtils.setAdmobBannerClickNum(context);
                     AdmobBannerAdapter.this.onAdClicked();
+                    FuseAdLoader.reportAdClick(AdmobBannerAdapter.this);
                 }
 
                 @Override

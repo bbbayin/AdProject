@@ -192,7 +192,7 @@ public class FuseAdLoader {
     }
 
     private static void initApplovin(Context context){
-//        AppLovinSdk.getInstance( context ).setMediationProvider( "max" );
+        AppLovinSdk.getInstance( context ).setMediationProvider( "max" );
         AppLovinSdk.initializeSdk( context, new AppLovinSdk.SdkInitializationListener() {
             @Override
             public void onSdkInitialized(final AppLovinSdkConfiguration configuration)
@@ -202,12 +202,10 @@ public class FuseAdLoader {
         } );
     }
 
-    private static void initVungle(Context context, String vgId) {
-        if (AdConstants.DEBUG) {
-            vgId = "616155990221f159a6d5cad6";
-        }
-        Log.i("VGInterstitial", "Vungle initialized = " + vgId);
-        Vungle.init(vgId, context, new InitCallback() {
+    private static void initVungle(Context context) {
+
+        Log.i("initVungle", "Vungle initialized = " + sConfiguration.vgId);
+        Vungle.init(sConfiguration.vgId, context, new InitCallback() {
             @Override
             public void onSuccess() {
                 Log.i("VGInterstitial", "Vungle initialized onSuccess");
@@ -251,7 +249,7 @@ public class FuseAdLoader {
             });
         }
         if (sConfiguration.hasVG()) {
-            initVungle(context, configuration.vgId);
+            initVungle(context);
         }
 
         if(sConfiguration.hasApplovin()){
@@ -854,7 +852,12 @@ public class FuseAdLoader {
             switch (config.source) {
                 // admob native广告
                 case AD_SOURCE_ADMOB:
-                    return new AdmobNativeAdapter(mAppContext, config.key, mSlot);
+//                    return new AdmobNativeAdapter(mAppContext, config.key, mSlot);
+                    if(AdUtils.checkTimes(mAppContext,"admobNative")){
+                        return new AdmobNativeAdapter(mAppContext, config.key, mSlot);
+                    }else{
+                        return null;
+                    }
                 case AD_SOURCE_ADMOB_M:
                     return new AdmobNativeMAdapter(mAppContext, config.key, mSlot);
                 case AD_SOURCE_ADMOB_H:
@@ -862,10 +865,21 @@ public class FuseAdLoader {
                 // admob 横幅广告
                 case AD_SOURCE_ADMOB_BANNER:
                     AdSize bannerSize = config.bannerAdSize == null ? mBannerAdSize : config.bannerAdSize;
-                    return bannerSize == null ? null : new AdmobBannerAdapter(mAppContext, config.key, bannerSize, mSlot);
+//                    return bannerSize == null ? null : new AdmobBannerAdapter(mAppContext, config.key, bannerSize, mSlot);
+                    if(AdUtils.checkTimes(mAppContext,"admobBanner")){
+                        return  bannerSize == null ? null : new AdmobBannerAdapter(mAppContext, config.key, bannerSize, mSlot);
+                    }else{
+                        return null;
+                    }
                 // admob 插屏广告
                 case AD_SOURCE_ADMOB_INTERSTITIAL:
-                    return new AdmobInterstitialAdapter(mAppContext, config.key, mSlot);
+//                    return new AdmobInterstitialAdapter(mAppContext, config.key, mSlot);
+                    if(AdUtils.checkTimes(mAppContext,"admob")){
+                        return new AdmobInterstitialAdapter(mAppContext, config.key, mSlot);
+                    }else{
+                        return null;
+                    }
+
                 case AD_SOURCE_ADMOB_INTERSTITIAL_H:
                     return new AdmobInterstitialHAdapter(mAppContext, config.key, mSlot);
                 case AD_SOURCE_ADMOB_INTERSTITIAL_M:
@@ -884,7 +898,14 @@ public class FuseAdLoader {
 //                    return new MopubRewardVideoAdapter(mAppContext, config.key, mSlot);
                 //vungle 横幅广告
                 case AD_SOURCE_VG:
-                 return  new VGBannerAdapter(mAppContext, config.key, mSlot);
+//                 return  new VGBannerAdapter(mAppContext, config.key, mSlot);
+
+                    if(AdUtils.checkTimes(mAppContext,"vungleBanner")){
+                        return new VGBannerAdapter(mAppContext, config.key, mSlot);
+                    }else{
+                        return null;
+                    }
+
                 // vungle  插屏广告
                 case AD_SOURCE_VG_INTERSTITIAL:
                     if(AdUtils.checkTimes(mAppContext,"vungle")){
@@ -896,13 +917,21 @@ public class FuseAdLoader {
                     return new ProphetNativeAdapter(mAppContext, config.key, mSlot);
                 //applovin
                 case AD_SOURCE_APPLOVIN_BANNER:
-                    return new ApplovinMaxBannerAdapter(mAppContext,config.key,mSlot);
+//                    return new ApplovinMaxBannerAdapter(mAppContext,config.key,mSlot);
+
+                    if(AdUtils.checkTimes(mAppContext,"applovinBanner")){
+                        return new ApplovinMaxBannerAdapter(mAppContext, config.key, mSlot);
+                    }else{
+                        return null;
+                    }
+
                 case AD_SOURCE_APPLOVIN_INTERSTITIAL:
                     if(AdUtils.checkTimes(mAppContext,"applovin")){
                         return new ApplovinMaxInterstitialAdapter(mAppContext, config.key, mSlot);
                     }else{
                         return null;
                     }
+
 //                    return new ApplovinMaxInterstitialAdapter(mAppContext,config.key,mSlot);
 //                case AD_SOURCE_APPLOVIN_MREC:
 //                    return null;
@@ -910,7 +939,12 @@ public class FuseAdLoader {
 //                    return null;
                 //adcolony
                 case AD_SOURCE_ADCOLONY_BANNER:
-                    return new AdcolonyBannerAdapter(mAppContext,config.key,mSlot);
+//                    return new AdcolonyBannerAdapter(mAppContext,config.key,mSlot);
+                    if(AdUtils.checkTimes(mAppContext,"adcolonyBanner")){
+                        return new AdcolonyBannerAdapter(mAppContext, config.key, mSlot);
+                    }else{
+                        return null;
+                    }
                 case AD_SOURCE_ADCOLONY_INTERSTITIAL:
                     if(AdUtils.checkTimes(mAppContext,"adcolony")){
                         return new AdcolonyInterstitialAdapter(mAppContext, config.key, mSlot);

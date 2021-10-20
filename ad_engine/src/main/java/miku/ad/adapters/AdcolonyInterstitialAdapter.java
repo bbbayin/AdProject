@@ -23,8 +23,6 @@ import miku.ad.AdUtils;
 public class AdcolonyInterstitialAdapter extends AdAdapter {
     private final static String TAG = "ApplovinInterstitialAdapter";
     private String mKey;
-//    final private String APP_ID = "app30a92c741c3a48b092";
-//    final private String ZONE_ID = "vz6d71d6d6767b40e5b5";
 
     private AdColonyInterstitial adInterstitial;
     private AdColonyInterstitialListener interstitialListener;

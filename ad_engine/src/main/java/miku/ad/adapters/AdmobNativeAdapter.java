@@ -41,7 +41,7 @@ public class AdmobNativeAdapter extends AdAdapter {
     }
 
     @Override
-    public void loadAd(Context context, int num, IAdLoadListener listener) {
+    public void loadAd(final Context context, int num, IAdLoadListener listener) {
         if (listener == null) {
             AdLog.e("listener not set.");
             return;
@@ -93,6 +93,7 @@ public class AdmobNativeAdapter extends AdAdapter {
             @Override
             public void onAdClicked() {
                 super.onAdClicked();
+                AdUtils.setAdmobNativeClickNum(context);
                 AdmobNativeAdapter.this.onAdClicked();
                 FuseAdLoader.reportAdClick(AdmobNativeAdapter.this);
             }

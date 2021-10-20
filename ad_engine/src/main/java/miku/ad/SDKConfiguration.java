@@ -17,7 +17,7 @@ public class SDKConfiguration {
     public String prophetId;
     public String applovinId;
 
-    public String adcolonyId = "app30a92c741c3a48b092";
+    public String adcolonyId;
     public Set<String> supportedFuseAdType;
     public boolean needReward;
 
@@ -146,8 +146,8 @@ public class SDKConfiguration {
             configuration.prophetId = s;
             return this;
         }
-        public Builder applovinAd(String s){
-            configuration.applovinId = s;
+        public Builder adcolonyAd(String s){
+            configuration.adcolonyId = s;
             return this;
         }
 

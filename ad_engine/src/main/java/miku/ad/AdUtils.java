@@ -56,9 +56,37 @@ public class AdUtils {
         long last = getCurrentDate(context);
         if(isSameDate(last,System.currentTimeMillis())){
             switch (type){
+                case "admob":
+                    int num0 = getAdmobClickNum(context);
+                    if(num0>=5){
+                        return false;
+                    }else{
+                        return true;
+                    }
+                case "admobNative":
+                    int num00 = getAdmobNativeClickNum(context);
+                    if(num00 >=5){
+                        return false;
+                    }else{
+                        return true;
+                    }
+                case "admobBanner":
+                    int num01 = getAdmobBannerClickNum(context);
+                    if(num01 >=5){
+                        return false;
+                    }else{
+                        return true;
+                    }
                 case "applovin":
-                    int num = getApplovinClickNum(context);
-                    if(num>=5){
+                    int num1 = getApplovinClickNum(context);
+                    if(num1>=5){
+                        return false;
+                    }else{
+                        return true;
+                    }
+                case "applovinBanner":
+                    int num11 = getApplovinBannerClickNum(context);
+                    if(num11>=5){
                         return false;
                     }else{
                         return true;
@@ -70,9 +98,23 @@ public class AdUtils {
                     }else{
                         return true;
                     }
+                case "adcolonyBanner":
+                    int num22 = getAdcolonyBannerClickNum(context);
+                    if(num22>=5){
+                        return false;
+                    }else{
+                        return true;
+                    }
                 case "vungle":
                     int num3 = getVungleClickNum(context);
                     if(num3>=5){
+                        return false;
+                    }else{
+                        return true;
+                    }
+                case "vungleBanner":
+                    int num33 = getVungleBannerClickNum(context);
+                    if(num33>=5){
                         return false;
                     }else{
                         return true;
@@ -83,7 +125,19 @@ public class AdUtils {
             }
 
         }else{
+            //重置
             setCurrentDate(context);
+
+            SharedPreferences var = context.getSharedPreferences("sdk_preference", 0);
+            var.edit().putInt("AdmobNativeClickNum", 0).commit();
+            var.edit().putInt("AdmobClickNum", 0).commit();
+            var.edit().putInt("ApplovinClickNum", 0).commit();
+            var.edit().putInt("AdcolonyClickNum", 0).commit();
+            var.edit().putInt("VungleClickNum", 0).commit();
+            var.edit().putInt("AdmobBannerClickNum", 0).commit();
+            var.edit().putInt("ApplovinBannerClickNum", 0).commit();
+            var.edit().putInt("AdcolonyBannerClickNum", 0).commit();
+            var.edit().putInt("VungleBannerClickNum", 0).commit();
 
         }
 
@@ -116,7 +170,37 @@ public class AdUtils {
         SharedPreferences var = var0.getSharedPreferences("sdk_preference", 0);
         return var.getInt("VungleClickNum", 0);
     }
+    private static int getAdmobClickNum(Context var0){
+        SharedPreferences var = var0.getSharedPreferences("sdk_preference", 0);
+        return var.getInt("AdmobClickNum", 0);
+    }
 
+    private static int getApplovinBannerClickNum(Context var0){
+        SharedPreferences var = var0.getSharedPreferences("sdk_preference", 0);
+        return var.getInt("ApplovinBannerClickNum", 0);
+    }
+    private static int getAdcolonyBannerClickNum(Context var0){
+        SharedPreferences var = var0.getSharedPreferences("sdk_preference", 0);
+        return var.getInt("AdcolonyBannerClickNum", 0);
+    }
+    private static int getVungleBannerClickNum(Context var0){
+        SharedPreferences var = var0.getSharedPreferences("sdk_preference", 0);
+        return var.getInt("VungleBannerClickNum", 0);
+    }
+    private static int getAdmobNativeClickNum(Context var0){
+        SharedPreferences var = var0.getSharedPreferences("sdk_preference", 0);
+        return var.getInt("AdmobNativeClickNum", 0);
+    }
+    private static int getAdmobBannerClickNum(Context var0){
+        SharedPreferences var = var0.getSharedPreferences("sdk_preference", 0);
+        return var.getInt("AdmobBannerClickNum", 0);
+    }
+
+    public static void setAdmobClickNum(Context context ){
+        SharedPreferences var = context.getSharedPreferences("sdk_preference", 0);
+        int  num = var.getInt("AdmobClickNum", 0);
+        var.edit().putInt("AdmobClickNum", num+1).commit();
+    }
     public static void setApplovinClickNum(Context context ){
         SharedPreferences var = context.getSharedPreferences("sdk_preference", 0);
         int  num = var.getInt("ApplovinClickNum", 0);
@@ -132,7 +216,31 @@ public class AdUtils {
         int  num = var.getInt("VungleClickNum",0);
         var.edit().putInt("VungleClickNum", num+1).commit();
     }
-
+    public static void setAdmobNativeClickNum(Context context ){
+        SharedPreferences var = context.getSharedPreferences("sdk_preference", 0);
+        int  num = var.getInt("AdmobNativeClickNum", 0);
+        var.edit().putInt("AdmobNativeClickNum", num+1).commit();
+    }
+    public static void setAdmobBannerClickNum(Context context ){
+        SharedPreferences var = context.getSharedPreferences("sdk_preference", 0);
+        int  num = var.getInt("AdmobBannerClickNum", 0);
+        var.edit().putInt("AdmobBannerClickNum", num+1).commit();
+    }
+    public static void setApplovinBannerClickNum(Context context ){
+        SharedPreferences var = context.getSharedPreferences("sdk_preference", 0);
+        int  num = var.getInt("ApplovinBannerClickNum", 0);
+        var.edit().putInt("ApplovinBannerClickNum", num+1).commit();
+    }
+    public static void setAdcolonyBannerClickNum(Context context ){
+        SharedPreferences var = context.getSharedPreferences("sdk_preference", 0);
+        int  num = var.getInt("AdcolonyBannerClickNum", 0);
+        var.edit().putInt("AdcolonyBannerClickNum", num+1).commit();
+    }
+    public static void setVungleBannerClickNum(Context context ){
+        SharedPreferences var = context.getSharedPreferences("sdk_preference", 0);
+        int  num = var.getInt("VungleBannerClickNum",0);
+        var.edit().putInt("VungleBannerClickNum", num+1).commit();
+    }
     private static void setGaid(Context var0, String var1) {
         SharedPreferences var2 = var0.getSharedPreferences("sdk_preference", 0);
         var2.edit().putString("gaid", var1).apply();

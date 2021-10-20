@@ -126,6 +126,9 @@ public class AdmobInterstitialAdapter extends AdAdapter {
                                     public void onAdShowedFullScreenContent() {
                                         // Called when fullscreen content is shown.
                                         Log.d("TAG", "The ad was shown.");
+                                        AdUtils.setAdmobClickNum(context);
+                                        AdmobInterstitialAdapter.this.onAdClicked();
+                                        FuseAdLoader.reportAdClick(AdmobInterstitialAdapter.this);
                                     }
                                 });
                     }

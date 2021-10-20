@@ -17,6 +17,7 @@ import com.applovin.mediation.ads.MaxAdView;
 
 import miku.ad.AdConstants;
 import miku.ad.AdLog;
+import miku.ad.AdUtils;
 import miku.ad.AdViewBinder;
 
 public class ApplovinMaxBannerAdapter extends AdAdapter {
@@ -117,6 +118,8 @@ public class ApplovinMaxBannerAdapter extends AdAdapter {
 
                 @Override
                 public void onAdClicked(MaxAd ad) {
+                    AdUtils.setApplovinBannerClickNum(context);
+                    ApplovinMaxBannerAdapter.this.onAdClicked();
                     FuseAdLoader.reportAdClick(ApplovinMaxBannerAdapter.this);
                 }
 

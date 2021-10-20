@@ -13,6 +13,7 @@ import com.vungle.warren.error.VungleException;
 
 import miku.ad.AdConstants;
 import miku.ad.AdLog;
+import miku.ad.AdUtils;
 import miku.ad.AdViewBinder;
 
 public class VGBannerAdapter extends AdAdapter {
@@ -41,7 +42,7 @@ public class VGBannerAdapter extends AdAdapter {
 
 
     @Override
-    public void loadAd(Context context, int num, IAdLoadListener listener) {
+    public void loadAd(final Context context, int num, IAdLoadListener listener) {
         mStartLoadedTime = System.currentTimeMillis();
         adListener = listener;
 
@@ -82,7 +83,9 @@ public class VGBannerAdapter extends AdAdapter {
 
                                 @Override
                                 public void onAdClick(String placementId) {
-
+                                    AdUtils.setVungleBannerClickNum(context);
+                                    VGBannerAdapter.this.onAdClicked();
+                                    FuseAdLoader.reportAdClick(VGBannerAdapter.this);
                                 }
 
                                 @Override
